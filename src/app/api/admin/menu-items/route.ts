@@ -13,7 +13,7 @@ import { verifyAdmin, isAdminAuthError } from '@/lib/auth';
 export async function GET() {
   try {
     const auth = await verifyAdmin();
-    if ('error' in auth) {
+    if (isAdminAuthError(auth)) {
       return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
@@ -33,7 +33,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const auth = await verifyAdmin();
-    if ('error' in auth) {
+    if (isAdminAuthError(auth)) {
       return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
