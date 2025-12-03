@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Colors - Gentle pink and white palette */
+  --pink-50: #fdf2f8;
+  --pink-100: #fce7f3;
+  --pink-200: #fbcfe8;
+  --pink-300: #f9a8d4;
+  --pink-400: #f472b6;
+  --pink-500: #ec4899;
+  --pink-600: #db2777;
+  --pink-700: #be185d;
+  --pink-800: #9d174d;
+  --pink-900: #831843;
+
+  /* Neutral Colors */
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+
+  /* Theme Variables */
+  --background: #ffffff;
+  --foreground: var(--neutral-800);
+  --primary: var(--pink-600);
+  --primary-hover: var(--pink-700);
+  --primary-light: var(--pink-100);
+  --secondary: var(--neutral-100);
+  --accent: var(--pink-400);
+  --muted: var(--neutral-500);
+  --border: var(--neutral-200);
+  --card: #ffffff;
+  --card-hover: var(--pink-50);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+
+  /* Pink color scale for Tailwind */
+  --color-pink-50: var(--pink-50);
+  --color-pink-100: var(--pink-100);
+  --color-pink-200: var(--pink-200);
+  --color-pink-300: var(--pink-300);
+  --color-pink-400: var(--pink-400);
+  --color-pink-500: var(--pink-500);
+  --color-pink-600: var(--pink-600);
+  --color-pink-700: var(--pink-700);
+  --color-pink-800: var(--pink-800);
+  --color-pink-900: var(--pink-900);
+
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neutral-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neutral-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-400);
+}
+
+/* Link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Image defaults */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Button reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Input styles */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Utility classes */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Prose styles for content */
+.prose {
+  max-width: 65ch;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--neutral-800);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.prose p {
+  margin-bottom: 1rem;
+}
+
+.prose a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: var(--primary-hover);
+}
