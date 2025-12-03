@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+import { Playfair_Display } from 'next/font/google';
+
+const playfair = Playfair_Display({
+  variable: '--font-playfair',
+  subsets: ['latin'],
+});
+
 export const metadata: Metadata = {
   title: {
     default: 'Guiltless Cakes | Boutique Home Bakery in Northeast Philadelphia',
@@ -63,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased min-h-screen flex flex-col`}
       >
         <Providers>
           <Header />
