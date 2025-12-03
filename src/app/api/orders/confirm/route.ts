@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
       pickupWindow: metadata.pickup_window,
       total: order.total_amount,
       items: orderItems?.map((item) => ({
-        name: item.menu_item?.translations?.find((t: { language: string }) => t.language === 'en')?.name || 'Item',
+        name: (item.menu_item as any)?.translations?.find((t: { language: string }) => t.language === 'en')?.name || 'Item',
         quantity: item.quantity,
         price: item.line_total,
       })) || [],
