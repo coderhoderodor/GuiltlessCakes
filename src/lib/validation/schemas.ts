@@ -249,6 +249,15 @@ export const businessInfoSettingSchema = z.object({
   email: emailSchema,
 });
 
+// Combined settings update schema - all fields optional
+export const updateAllSettingsSchema = z.object({
+  serviceFee: serviceFeeSettingSchema.optional(),
+  orderingEnabled: orderingEnabledSettingSchema.optional(),
+  maxWeeklyOrders: maxWeeklyOrdersSettingSchema.optional(),
+  pickupInstructions: pickupInstructionsSettingSchema.optional(),
+  businessInfo: businessInfoSettingSchema.optional(),
+}).strict(); // Reject unknown keys for security
+
 // ============================================
 // Checkout Schemas
 // ============================================

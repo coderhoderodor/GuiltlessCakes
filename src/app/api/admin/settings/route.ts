@@ -6,8 +6,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createSettingsService, AllSettings } from '@/lib/services';
+import { createSettingsService } from '@/lib/services';
 import { verifyAdmin, isAdminAuthError } from '@/lib/auth';
+import { validate, updateAllSettingsSchema } from '@/lib/validation';
 
 export async function GET() {
   try {
@@ -23,7 +24,7 @@ export async function GET() {
   } catch (error) {
     console.error('Failed to fetch settings:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch settings' },
+      { error: 'Failed to fetch settings' },
       { status: 500 }
     );
   }
@@ -36,10 +37,19 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
-    const body = await request.json() as Partial<AllSettings>;
+    const body = await request.json();
+
+    // Validate request body
+    const validation = validate(updateAllSettingsSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: validation.errors },
+        { status: 400 }
+      );
+    }
 
     const settingsService = createSettingsService(auth.supabase);
-    await settingsService.updateAllSettings(body);
+    await settingsService.updateAllSettings(validation.data!);
 
     // Return updated settings
     const settings = await settingsService.getAllSettings();
@@ -48,7 +58,7 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     console.error('Failed to update settings:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to update settings' },
+      { error: 'Failed to update settings' },
       { status: 500 }
     );
   }

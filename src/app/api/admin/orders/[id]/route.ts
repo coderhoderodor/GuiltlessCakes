@@ -34,7 +34,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   } catch (error) {
     console.error('Failed to fetch order:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch order' },
+      { error: 'Failed to fetch order' },
       { status: 500 }
     );
   }
@@ -65,9 +65,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ data: order });
   } catch (error) {
     console.error('Failed to update order:', error);
-    const message = error instanceof Error ? error.message : 'Failed to update order';
-    const status = message.includes('not found') ? 404 : message.includes('Cannot transition') ? 400 : 500;
-    return NextResponse.json({ error: message }, { status });
+    const message = error instanceof Error ? error.message : '';
+    // Only expose expected business logic messages, not internal errors
+    if (message.includes('not found')) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+    if (message.includes('Cannot transition')) {
+      return NextResponse.json({ error: 'Invalid status transition' }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
   }
 }
 
@@ -85,8 +91,14 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Failed to delete order:', error);
-    const message = error instanceof Error ? error.message : 'Failed to delete order';
-    const status = message.includes('not found') ? 404 : message.includes('Only canceled') ? 400 : 500;
-    return NextResponse.json({ error: message }, { status });
+    const message = error instanceof Error ? error.message : '';
+    // Only expose expected business logic messages, not internal errors
+    if (message.includes('not found')) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+    if (message.includes('Only canceled')) {
+      return NextResponse.json({ error: 'Only canceled orders can be deleted' }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Failed to delete order' }, { status: 500 });
   }
 }

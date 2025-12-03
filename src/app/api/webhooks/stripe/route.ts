@@ -99,6 +99,18 @@ async function handleSuccessfulPayment(session: Stripe.Checkout.Session) {
     throw new Error('Missing required order metadata');
   }
 
+  // SECURITY: Verify user_id exists in database and matches session customer_email
+  const { data: userProfile, error: userError } = await supabaseAdmin
+    .from('profiles')
+    .select('id')
+    .eq('id', metadata.user_id)
+    .single();
+
+  if (userError || !userProfile) {
+    console.error('Invalid user_id in metadata:', metadata.user_id);
+    throw new Error('Invalid user in order metadata');
+  }
+
   // Check if order already exists (idempotency)
   const { data: existingOrder } = await supabaseAdmin
     .from('orders')

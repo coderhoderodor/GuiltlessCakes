@@ -39,8 +39,14 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ data: inquiry });
   } catch (error) {
     console.error('Failed to update inquiry status:', error);
-    const message = error instanceof Error ? error.message : 'Failed to update inquiry status';
-    const status = message.includes('not found') ? 404 : message.includes('Cannot transition') ? 400 : 500;
-    return NextResponse.json({ error: message }, { status });
+    const message = error instanceof Error ? error.message : '';
+    // Only expose expected business logic messages, not internal errors
+    if (message.includes('not found')) {
+      return NextResponse.json({ error: 'Inquiry not found' }, { status: 404 });
+    }
+    if (message.includes('Cannot transition')) {
+      return NextResponse.json({ error: 'Invalid status transition' }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Failed to update inquiry status' }, { status: 500 });
   }
 }

@@ -24,7 +24,7 @@ export async function GET() {
   } catch (error) {
     console.error('Failed to fetch menu items:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch menu items' },
+      { error: 'Failed to fetch menu items' },
       { status: 500 }
     );
   }
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Failed to create menu item:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to create menu item' },
+      { error: 'Failed to create menu item' },
       { status: 500 }
     );
   }

@@ -24,6 +24,17 @@ interface OrderItemInput {
 
 export async function GET(request: NextRequest) {
   try {
+    const supabase = await createClient();
+
+    // SECURITY: Require authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('session_id');
 
@@ -46,8 +57,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const supabase = await createClient();
     const metadata = session.metadata || {};
+
+    // SECURITY: Verify the authenticated user matches the order owner
+    if (metadata.user_id && metadata.user_id !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized - order belongs to another user' },
+        { status: 403 }
+      );
+    }
 
     // Check if order already exists
     let order;

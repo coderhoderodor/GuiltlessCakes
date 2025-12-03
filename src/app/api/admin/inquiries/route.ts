@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Failed to fetch inquiries:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch inquiries' },
+      { error: 'Failed to fetch inquiries' },
       { status: 500 }
     );
   }

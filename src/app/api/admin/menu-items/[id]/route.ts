@@ -34,7 +34,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   } catch (error) {
     console.error('Failed to fetch menu item:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to fetch menu item' },
+      { error: 'Failed to fetch menu item' },
       { status: 500 }
     );
   }
@@ -65,9 +65,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ data: menuItem });
   } catch (error) {
     console.error('Failed to update menu item:', error);
-    const message = error instanceof Error ? error.message : 'Failed to update menu item';
-    const status = message.includes('not found') ? 404 : 500;
-    return NextResponse.json({ error: message }, { status });
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('not found')) {
+      return NextResponse.json({ error: 'Menu item not found' }, { status: 404 });
+    }
+    return NextResponse.json({ error: 'Failed to update menu item' }, { status: 500 });
   }
 }
 
@@ -85,8 +87,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Failed to delete menu item:', error);
-    const message = error instanceof Error ? error.message : 'Failed to delete menu item';
-    const status = message.includes('not found') ? 404 : 500;
-    return NextResponse.json({ error: message }, { status });
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('not found')) {
+      return NextResponse.json({ error: 'Menu item not found' }, { status: 404 });
+    }
+    return NextResponse.json({ error: 'Failed to delete menu item' }, { status: 500 });
   }
 }
