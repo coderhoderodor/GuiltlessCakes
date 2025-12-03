@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
 import { DEFAULT_SERVICE_FEE_RATE } from '@/lib/constants';
 import { validate, checkoutRequestSchema } from '@/lib/validation';
+import { withRateLimit, getRateLimitIdentifier } from '@/lib/rate-limit';
+import { createErrorResponse, AuthError, ValidationError } from '@/lib/errors';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,10 +14,16 @@ export async function POST(request: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      throw new AuthError();
+    }
+
+    // Apply rate limiting
+    const rateLimitResponse = await withRateLimit(
+      'checkout',
+      getRateLimitIdentifier(user.id)
+    );
+    if (rateLimitResponse) {
+      return rateLimitResponse;
     }
 
     const body = await request.json();
@@ -139,9 +147,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error('Checkout error:', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Checkout failed' },
-      { status: 500 }
-    );
+    return createErrorResponse(error);
   }
 }

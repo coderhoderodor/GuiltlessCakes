@@ -560,3 +560,39 @@ BEGIN
   WHERE menu_item_id = p_menu_item_id AND pickup_date = p_pickup_date;
 END;
 $$ LANGUAGE plpgsql;
+
+-- =====================================================
+-- AUDIT LOGS TABLE
+-- =====================================================
+
+CREATE TABLE audit_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id),
+  action TEXT NOT NULL,
+  resource_type TEXT NOT NULL,
+  resource_id UUID,
+  changes JSONB,
+  metadata JSONB,
+  ip_address INET,
+  user_agent TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Index for efficient querying
+CREATE INDEX idx_audit_logs_user_id ON audit_logs(user_id);
+CREATE INDEX idx_audit_logs_action ON audit_logs(action);
+CREATE INDEX idx_audit_logs_resource ON audit_logs(resource_type, resource_id);
+CREATE INDEX idx_audit_logs_created_at ON audit_logs(created_at DESC);
+
+-- RLS policies for audit logs
+ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
+
+-- Only admins can view audit logs
+CREATE POLICY "Admins can view audit logs" ON audit_logs
+  FOR SELECT USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+  );
+
+-- System can insert audit logs (via service role)
+CREATE POLICY "System can insert audit logs" ON audit_logs
+  FOR INSERT WITH CHECK (TRUE);
