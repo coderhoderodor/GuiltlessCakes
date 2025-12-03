@@ -13,16 +13,16 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-pink-50 to-white py-16 lg:py-24">
+      <section className="bg-gradient-to-b from-pink-50 to-white py-20 lg:py-32">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-4 py-1 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1.5 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-6">
               Our Story
             </span>
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-8 leading-[1.1]">
               Baking with Love, One Treat at a Time
             </h1>
-            <p className="text-lg text-neutral-600">
+            <p className="text-lg text-neutral-600 leading-relaxed">
               Welcome to Guiltless Cakes, where every treat is crafted with
               passion, care, and the finest ingredients. We&apos;re more than just
               a bakery - we&apos;re a family dedicated to bringing sweetness to
@@ -33,17 +33,17 @@ export default function AboutPage() {
       </section>
 
       {/* Story Section */}
-      <section className="py-16 lg:py-20">
+      <section className="py-20 lg:py-28">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-pink-100 flex items-center justify-center">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+            <div className="aspect-[4/3] rounded-3xl overflow-hidden bg-pink-100 flex items-center justify-center">
               <Sparkles className="w-24 h-24 text-pink-300" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-neutral-800 mb-6">
+              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-8">
                 From Home Kitchen to Beloved Bakery
               </h2>
-              <div className="space-y-4 text-neutral-600">
+              <div className="space-y-5 text-neutral-600 text-lg leading-relaxed">
                 <p>
                   Guiltless Cakes began as a passion project in a small home
                   kitchen in Northeast Philadelphia. What started as baking for
@@ -69,53 +69,53 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-16 lg:py-20 bg-neutral-50">
+      <section className="py-20 lg:py-28 bg-neutral-50">
         <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-800 mb-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-5">
               What We Stand For
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">
+            <p className="text-neutral-600 max-w-2xl mx-auto text-lg leading-relaxed">
               Our values guide everything we do, from ingredient selection to
               customer service.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-7 h-7 text-pink-600" />
+          <div className="grid md:grid-cols-3 gap-10">
+            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Heart className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
                 Made with Love
               </h3>
-              <p className="text-neutral-600">
+              <p className="text-neutral-600 leading-relaxed">
                 Every item is baked with genuine care and passion. We treat each
                 order as if we&apos;re making it for our own family.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Award className="w-7 h-7 text-pink-600" />
+            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Award className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
                 Quality First
               </h3>
-              <p className="text-neutral-600">
+              <p className="text-neutral-600 leading-relaxed">
                 We never compromise on ingredients. From real butter to premium
                 chocolate, quality is non-negotiable.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Users className="w-7 h-7 text-pink-600" />
+            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Users className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
                 Community Focus
               </h3>
-              <p className="text-neutral-600">
+              <p className="text-neutral-600 leading-relaxed">
                 We&apos;re proud to serve our local Philadelphia community and
                 build lasting relationships with our customers.
               </p>
@@ -125,14 +125,14 @@ export default function AboutPage() {
       </section>
 
       {/* Service Area Section */}
-      <section className="py-16 lg:py-20">
+      <section className="py-20 lg:py-28">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-neutral-800 mb-6">
+              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-8">
                 Serving the Philadelphia Area
               </h2>
-              <div className="space-y-4 text-neutral-600">
+              <div className="space-y-5 text-neutral-600 text-lg leading-relaxed">
                 <p>
                   We&apos;re located in Northeast Philadelphia and proudly serve
                   the broader Philadelphia area. Our current service model is
@@ -150,7 +150,7 @@ export default function AboutPage() {
                   including potential delivery options. Stay tuned for updates!
                 </p>
               </div>
-              <div className="mt-6">
+              <div className="mt-8">
                 <Link href="/pickup">
                   <Button variant="outline">
                     View Pickup Information
@@ -159,7 +159,7 @@ export default function AboutPage() {
                 </Link>
               </div>
             </div>
-            <div className="aspect-square rounded-2xl overflow-hidden bg-pink-100 flex items-center justify-center">
+            <div className="aspect-square rounded-3xl overflow-hidden bg-pink-100 flex items-center justify-center">
               <Sparkles className="w-24 h-24 text-pink-300" />
             </div>
           </div>
@@ -167,17 +167,17 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 lg:py-20 bg-pink-600">
+      <section className="py-20 lg:py-28 bg-pink-600">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center text-white">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
               Ready to Try Our Treats?
             </h2>
-            <p className="text-pink-100 mb-8">
+            <p className="text-pink-100 mb-10 text-lg leading-relaxed">
               Browse our weekly menu or get in touch for a custom cake inquiry.
               We can&apos;t wait to bake something special for you!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
               <Link href="/menu">
                 <Button
                   variant="secondary"

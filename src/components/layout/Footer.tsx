@@ -11,8 +11,8 @@ export function Footer() {
 
   return (
     <footer className="bg-neutral-50 border-t border-neutral-100">
-      <div className="container py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="container py-16 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16">
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block">
@@ -20,10 +20,10 @@ export function Footer() {
                 Guiltless Cakes
               </span>
             </Link>
-            <p className="mt-4 text-neutral-600 text-sm leading-relaxed">
+            <p className="mt-5 text-neutral-600 text-sm leading-relaxed">
               {t(translations.footer.madeWith)}
             </p>
-            <div className="mt-6 flex gap-4">
+            <div className="mt-7 flex gap-4">
               <a
                 href={SOCIAL_LINKS.instagram}
                 target="_blank"
@@ -47,8 +47,8 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-neutral-800 mb-4">Quick Links</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold text-neutral-800 mb-5">Quick Links</h3>
+            <ul className="space-y-3.5">
               <li>
                 <Link
                   href="/menu"
@@ -86,8 +86,8 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="font-semibold text-neutral-800 mb-4">Contact</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold text-neutral-800 mb-5">Contact</h3>
+            <ul className="space-y-3.5">
               <li>
                 <a
                   href="mailto:hello@guiltlesscakes.com"
@@ -117,20 +117,20 @@ export function Footer() {
 
           {/* Hours */}
           <div>
-            <h3 className="font-semibold text-neutral-800 mb-4">Pickup Hours</h3>
+            <h3 className="font-semibold text-neutral-800 mb-5">Pickup Hours</h3>
             <p className="text-neutral-600 text-sm leading-relaxed">
               <strong>Fridays Only</strong>
               <br />
               10:00 AM - 6:00 PM
             </p>
-            <p className="mt-4 text-neutral-500 text-xs">
+            <p className="mt-5 text-neutral-500 text-xs leading-relaxed">
               Orders must be placed by Wednesday 11:59 PM for Friday pickup.
             </p>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-neutral-200">
+        <div className="mt-14 pt-8 border-t border-neutral-200">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-neutral-500 text-sm">
               &copy; {currentYear} Guiltless Cakes. {t(translations.footer.rights)}.

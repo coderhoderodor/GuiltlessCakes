@@ -6,18 +6,18 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-pink-50 to-white py-16 lg:py-24">
+      <section className="relative bg-gradient-to-b from-pink-50 to-white py-20 lg:py-32">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left">
-              <span className="inline-block px-4 py-1 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-4">
+              <span className="inline-block px-4 py-1.5 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-6">
                 Boutique Home Bakery
               </span>
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-neutral-800 leading-tight mb-6">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-neutral-800 leading-[1.1] mb-8">
                 Handcrafted Treats,{' '}
                 <span className="text-pink-600">Made with Love</span>
               </h1>
-              <p className="text-lg text-neutral-600 mb-8 max-w-xl mx-auto lg:mx-0">
+              <p className="text-lg text-neutral-600 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 Welcome to Guiltless Cakes, a boutique home bakery in Northeast
                 Philadelphia. We specialize in delicious cupcakes, slices, and
                 stunning custom celebration cakes for your special moments.
@@ -51,41 +51,41 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 lg:py-20">
+      <section className="py-20 lg:py-28">
         <div className="container">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-7 h-7 text-pink-600" />
+          <div className="grid md:grid-cols-3 gap-10 lg:gap-14">
+            <div className="text-center p-8">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Sparkles className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
                 Fresh Weekly Menu
               </h3>
-              <p className="text-neutral-600">
+              <p className="text-neutral-600 leading-relaxed">
                 Our menu rotates weekly with fresh, seasonal flavors. Order by
                 Wednesday for Friday pickup.
               </p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-7 h-7 text-pink-600" />
+            <div className="text-center p-8">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Clock className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
                 Friday Pickups
               </h3>
-              <p className="text-neutral-600">
+              <p className="text-neutral-600 leading-relaxed">
                 Convenient 2-hour pickup windows on Fridays between 10 AM and 6
                 PM. Choose the slot that works for you.
               </p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-7 h-7 text-pink-600" />
+            <div className="text-center p-8">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <MapPin className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
                 Local & Personal
               </h3>
-              <p className="text-neutral-600">
+              <p className="text-neutral-600 leading-relaxed">
                 Located in Northeast Philadelphia, serving the greater
                 Philadelphia area with care and attention to detail.
               </p>
@@ -95,37 +95,37 @@ export default function HomePage() {
       </section>
 
       {/* This Week's Menu Preview */}
-      <section className="py-16 lg:py-20 bg-neutral-50">
+      <section className="py-20 lg:py-28 bg-neutral-50">
         <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-5">
               This Week&apos;s Menu
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">
+            <p className="text-neutral-600 max-w-2xl mx-auto text-lg leading-relaxed">
               Discover our freshly baked selection for this week. All items are
               made to order and available for Friday pickup.
             </p>
           </div>
 
           {/* Menu Preview Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="aspect-square bg-pink-50 flex items-center justify-center">
                   <Sparkles className="w-16 h-16 text-pink-200" />
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-neutral-800 mb-1">
+                <div className="p-6">
+                  <h3 className="font-semibold text-neutral-800 mb-2 text-lg">
                     Delicious Treat {i}
                   </h3>
-                  <p className="text-sm text-neutral-500 mb-2">
+                  <p className="text-sm text-neutral-500 mb-4 leading-relaxed">
                     A delightful treat made with the finest ingredients
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-pink-600 font-semibold">$4.50</span>
+                    <span className="text-pink-600 font-semibold text-lg">$4.50</span>
                     <Button size="sm">Add to Cart</Button>
                   </div>
                 </div>
@@ -145,13 +145,13 @@ export default function HomePage() {
       </section>
 
       {/* Custom Cakes CTA */}
-      <section className="py-16 lg:py-20">
+      <section className="py-20 lg:py-28">
         <div className="container">
-          <div className="bg-gradient-to-r from-pink-600 to-pink-500 rounded-2xl p-8 lg:p-12 text-center text-white">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+          <div className="bg-gradient-to-r from-pink-600 to-pink-500 rounded-3xl p-10 lg:p-16 text-center text-white">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
               Planning a Special Celebration?
             </h2>
-            <p className="text-pink-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-pink-100 mb-10 max-w-2xl mx-auto text-lg leading-relaxed">
               Let us create the perfect custom cake for your birthday, wedding,
               anniversary, or any special occasion. We&apos;ll work with you to
               bring your vision to life.
@@ -171,26 +171,26 @@ export default function HomePage() {
       </section>
 
       {/* About Preview */}
-      <section className="py-16 lg:py-20 bg-neutral-50">
+      <section className="py-20 lg:py-28 bg-neutral-50">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-pink-100 flex items-center justify-center">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+            <div className="aspect-[4/3] rounded-3xl overflow-hidden bg-pink-100 flex items-center justify-center">
               <Sparkles className="w-24 h-24 text-pink-300" />
             </div>
             <div>
-              <span className="inline-block px-4 py-1 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-4">
+              <span className="inline-block px-4 py-1.5 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-6">
                 Our Story
               </span>
-              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-6">
                 Baking with Passion Since Day One
               </h2>
-              <p className="text-neutral-600 mb-6">
+              <p className="text-neutral-600 mb-5 leading-relaxed text-lg">
                 Guiltless Cakes started as a passion project in a home kitchen
                 and has grown into a beloved local bakery. We believe in using
                 quality ingredients, traditional techniques, and a whole lot of
                 love in everything we bake.
               </p>
-              <p className="text-neutral-600 mb-8">
+              <p className="text-neutral-600 mb-8 leading-relaxed text-lg">
                 Every cupcake, slice, and custom cake is crafted with care,
                 ensuring each bite brings joy to our customers. We&apos;re proud
                 to serve the Northeast Philadelphia community and beyond.
@@ -207,18 +207,18 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 lg:py-20">
+      <section className="py-20 lg:py-28">
         <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-5">
               How It Works
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">
+            <p className="text-neutral-600 max-w-2xl mx-auto text-lg">
               Ordering from Guiltless Cakes is simple and convenient.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-10 lg:gap-12">
             {[
               {
                 step: '1',
@@ -242,13 +242,13 @@ export default function HomePage() {
               },
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <div className="w-12 h-12 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-lg font-bold">
+                <div className="w-14 h-14 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-5 text-xl font-bold">
                   {item.step}
                 </div>
-                <h3 className="text-lg font-semibold text-neutral-800 mb-2">
+                <h3 className="text-lg font-semibold text-neutral-800 mb-3">
                   {item.title}
                 </h3>
-                <p className="text-neutral-600 text-sm">{item.description}</p>
+                <p className="text-neutral-600 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>

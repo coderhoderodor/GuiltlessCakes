@@ -82,7 +82,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  line-height: 1.6;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -142,18 +143,24 @@ select {
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
 }
 
 @media (min-width: 640px) {
   .container {
-    padding: 0 1.5rem;
+    padding: 0 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0 2rem;
+    padding: 0 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    padding: 0 4rem;
   }
 }
 
@@ -212,11 +219,22 @@ select {
 .prose h4 {
   color: var(--neutral-800);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.prose h1 {
+  margin-top: 0;
 }
 
 .prose p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose p + p {
+  margin-top: 0;
 }
 
 .prose a {
@@ -226,4 +244,9 @@ select {
 
 .prose a:hover {
   color: var(--primary-hover);
+}
+
+/* Better heading tracking */
+h1, h2, h3, h4 {
+  letter-spacing: -0.025em;
 }

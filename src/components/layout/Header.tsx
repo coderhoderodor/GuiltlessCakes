@@ -28,9 +28,9 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-neutral-100">
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-100">
       <div className="container">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-16 lg:h-[72px]">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <span className="text-xl lg:text-2xl font-bold text-pink-600">
@@ -39,12 +39,12 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-10">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-neutral-600 hover:text-pink-600 transition-colors font-medium"
+                className="text-neutral-600 hover:text-pink-600 transition-colors font-medium text-[15px]"
               >
                 {link.label}
               </Link>
@@ -52,7 +52,7 @@ export function Header() {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-2 lg:gap-4">
+          <div className="flex items-center gap-3 lg:gap-5">
             {/* Language Selector */}
             <div className="relative hidden sm:block">
               <button
@@ -68,7 +68,7 @@ export function Header() {
                     className="fixed inset-0 z-10"
                     onClick={() => setIsLangMenuOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-neutral-100 py-1 z-20">
+                  <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-lg border border-neutral-100 py-2 z-20">
                     {SUPPORTED_LANGUAGES.map((lang) => (
                       <button
                         key={lang.code}
@@ -77,7 +77,7 @@ export function Header() {
                           setIsLangMenuOpen(false);
                         }}
                         className={cn(
-                          'w-full px-4 py-2 text-left text-sm flex items-center gap-2 hover:bg-pink-50 transition-colors',
+                          'w-full px-4 py-2.5 text-left text-sm flex items-center gap-3 hover:bg-pink-50 transition-colors',
                           language === lang.code && 'bg-pink-50 text-pink-600'
                         )}
                       >
@@ -123,37 +123,37 @@ export function Header() {
                       className="fixed inset-0 z-10"
                       onClick={() => setIsUserMenuOpen(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-neutral-100 py-1 z-20">
+                    <div className="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-lg border border-neutral-100 py-2 z-20">
                       <Link
                         href="/account/orders"
-                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-pink-50 transition-colors"
+                        className="block px-4 py-2.5 text-sm text-neutral-700 hover:bg-pink-50 transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         {t(translations.nav.orders)}
                       </Link>
                       <Link
                         href="/account/settings"
-                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-pink-50 transition-colors"
+                        className="block px-4 py-2.5 text-sm text-neutral-700 hover:bg-pink-50 transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         {t(translations.nav.settings)}
                       </Link>
                       {isAdmin && (
                         <>
-                          <hr className="my-1 border-neutral-100" />
+                          <hr className="my-2 border-neutral-100" />
                           <Link
                             href="/admin"
-                            className="block px-4 py-2 text-sm text-pink-600 font-medium hover:bg-pink-50 transition-colors"
+                            className="block px-4 py-2.5 text-sm text-pink-600 font-medium hover:bg-pink-50 transition-colors"
                             onClick={() => setIsUserMenuOpen(false)}
                           >
                             Admin Dashboard
                           </Link>
                         </>
                       )}
-                      <hr className="my-1 border-neutral-100" />
+                      <hr className="my-2 border-neutral-100" />
                       <button
                         onClick={handleSignOut}
-                        className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-pink-50 transition-colors"
+                        className="w-full text-left px-4 py-2.5 text-sm text-neutral-700 hover:bg-pink-50 transition-colors"
                       >
                         {t(translations.nav.signOut)}
                       </button>
@@ -186,31 +186,31 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-neutral-100 py-4 animate-slideUp">
-            <nav className="flex flex-col gap-2">
+          <div className="lg:hidden border-t border-neutral-100 py-5 animate-slideUp">
+            <nav className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                  className="px-4 py-3 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
-              <hr className="my-2 border-neutral-100" />
+              <hr className="my-3 border-neutral-100" />
               {isAuthenticated ? (
                 <>
                   <Link
                     href="/account/orders"
-                    className="px-4 py-2 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="px-4 py-3 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {t(translations.nav.orders)}
                   </Link>
                   <Link
                     href="/account/settings"
-                    className="px-4 py-2 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="px-4 py-3 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {t(translations.nav.settings)}
@@ -218,7 +218,7 @@ export function Header() {
                   {isAdmin && (
                     <Link
                       href="/admin"
-                      className="px-4 py-2 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
+                      className="px-4 py-3 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Admin Dashboard
@@ -229,7 +229,7 @@ export function Header() {
                       handleSignOut();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="px-4 py-2 text-left text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="px-4 py-3 text-left text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                   >
                     {t(translations.nav.signOut)}
                   </button>
@@ -237,14 +237,14 @@ export function Header() {
               ) : (
                 <Link
                   href="/auth/login"
-                  className="px-4 py-2 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
+                  className="px-4 py-3 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t(translations.nav.signIn)}
                 </Link>
               )}
-              <hr className="my-2 border-neutral-100" />
-              <div className="px-4 flex gap-2">
+              <hr className="my-3 border-neutral-100" />
+              <div className="px-4 flex gap-3">
                 {SUPPORTED_LANGUAGES.map((lang) => (
                   <button
                     key={lang.code}
