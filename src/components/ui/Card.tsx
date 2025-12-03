@@ -27,9 +27,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
     const paddings = {
       none: '',
-      sm: 'p-5',
-      md: 'p-6 sm:p-8',
-      lg: 'p-8 sm:p-12',
+      sm: 'p-10',
+      md: 'p-12 sm:p-16',
+      lg: 'p-16 sm:p-20',
     };
 
     return (
@@ -59,7 +59,7 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn('mb-5', className)}
+        className={cn('mb-12', className)}
         {...props}
       >
         {children}
@@ -133,7 +133,7 @@ const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn('mt-5 pt-5 border-t border-neutral-100', className)}
+        className={cn('mt-12 pt-12 border-t border-neutral-100', className)}
         {...props}
       >
         {children}

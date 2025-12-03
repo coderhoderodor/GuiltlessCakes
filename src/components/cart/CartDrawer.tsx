@@ -29,7 +29,7 @@ export function CartDrawer() {
       {/* Drawer */}
       <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-xl z-50 flex flex-col animate-slideIn">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-neutral-100">
+        <div className="flex items-center justify-between p-8 border-b border-neutral-100">
           <h2 className="text-lg font-semibold text-neutral-800 flex items-center gap-2">
             <ShoppingBag className="w-5 h-5" />
             {t(translations.cart.title)}
@@ -44,21 +44,21 @@ export function CartDrawer() {
         </div>
 
         {/* Cart Content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-8">
           {cart.items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
-              <ShoppingBag className="w-16 h-16 text-neutral-300 mb-4" />
-              <p className="text-neutral-500 mb-4">{t(translations.cart.empty)}</p>
+              <ShoppingBag className="w-16 h-16 text-neutral-300 mb-6" />
+              <p className="text-neutral-500 mb-6">{t(translations.cart.empty)}</p>
               <Button variant="outline" onClick={closeCart}>
                 {t(translations.cart.continueShopping)}
               </Button>
             </div>
           ) : (
-            <ul className="space-y-4">
+            <ul className="space-y-8">
               {cart.items.map((item) => (
                 <li
                   key={item.menuItemId}
-                  className="flex gap-4 p-3 bg-neutral-50 rounded-lg"
+                  className="flex gap-6 p-6 bg-neutral-50 rounded-xl"
                 >
                   {/* Item Image */}
                   <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-200">
@@ -86,7 +86,7 @@ export function CartDrawer() {
                     </p>
 
                     {/* Quantity Controls */}
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-3 mt-4">
                       <button
                         onClick={() =>
                           updateQuantity(item.menuItemId, item.quantity - 1)
@@ -132,7 +132,7 @@ export function CartDrawer() {
 
         {/* Footer */}
         {cart.items.length > 0 && (
-          <div className="border-t border-neutral-100 p-4 space-y-4">
+          <div className="border-t border-neutral-100 p-8 space-y-6">
             {/* Subtotal */}
             <div className="flex items-center justify-between text-lg">
               <span className="text-neutral-600">{t(translations.cart.subtotal)}</span>

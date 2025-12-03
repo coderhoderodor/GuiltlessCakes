@@ -38,6 +38,16 @@
   --border: var(--neutral-200);
   --card: #ffffff;
   --card-hover: var(--pink-50);
+
+  /* Spacing Scale */
+  --space-xs: 0.5rem;    /* 8px */
+  --space-sm: 0.75rem;   /* 12px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 2.5rem;   /* 40px */
+  --space-3xl: 3rem;     /* 48px */
+  --space-4xl: 4rem;     /* 64px */
 }
 
 @theme inline {
@@ -96,8 +106,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  line-height: 1.8;
-  letter-spacing: 0.01em;
+  font-size: 0.8125rem;  /* 13px - luxury feel */
+  line-height: 1.7;
+  letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -266,7 +277,29 @@ select {
 /* Typography Overrides */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+/* Global paragraph spacing */
+p {
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Spacious text blocks */
+.text-lg, .text-xl, .text-2xl {
+  line-height: 1.8;
+}
+
+/* Description text spacing */
+p + p {
+  margin-top: 1.25rem;
 }
 
 .font-sans {

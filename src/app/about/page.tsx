@@ -22,7 +22,7 @@ export default function AboutPage() {
             <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-8 leading-[1.1]">
               Baking with Love, One Treat at a Time
             </h1>
-            <p className="text-lg text-neutral-600 leading-relaxed">
+            <p className="text-lg text-neutral-600 leading-loose">
               Welcome to Guiltless Cakes, where every treat is crafted with
               passion, care, and the finest ingredients. We&apos;re more than just
               a bakery - we&apos;re a family dedicated to bringing sweetness to
@@ -40,10 +40,10 @@ export default function AboutPage() {
               <Sparkles className="w-24 h-24 text-pink-300" />
             </div>
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-8">
+              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-10">
                 From Home Kitchen to Beloved Bakery
               </h2>
-              <div className="space-y-5 text-neutral-600 text-lg leading-relaxed">
+              <div className="space-y-6 text-neutral-600 text-lg leading-loose">
                 <p>
                   Guiltless Cakes began as a passion project in a small home
                   kitchen in Northeast Philadelphia. What started as baking for
@@ -71,51 +71,51 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className="py-20 lg:py-28 bg-neutral-50">
         <div className="container">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-5">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-6">
               What We Stand For
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto text-lg leading-relaxed">
+            <p className="text-neutral-600 max-w-2xl mx-auto text-lg leading-loose">
               Our values guide everything we do, from ingredient selection to
               customer service.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-10">
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="bg-white rounded-2xl p-10 text-center shadow-sm">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
                 <Heart className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-5">
                 Made with Love
               </h3>
-              <p className="text-neutral-600 leading-relaxed">
+              <p className="text-neutral-600 leading-loose">
                 Every item is baked with genuine care and passion. We treat each
                 order as if we&apos;re making it for our own family.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white rounded-2xl p-10 text-center shadow-sm">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
                 <Award className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-5">
                 Quality First
               </h3>
-              <p className="text-neutral-600 leading-relaxed">
+              <p className="text-neutral-600 leading-loose">
                 We never compromise on ingredients. From real butter to premium
                 chocolate, quality is non-negotiable.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white rounded-2xl p-10 text-center shadow-sm">
+              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
                 <Users className="w-8 h-8 text-pink-600" />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-800 mb-3">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-5">
                 Community Focus
               </h3>
-              <p className="text-neutral-600 leading-relaxed">
+              <p className="text-neutral-600 leading-loose">
                 We&apos;re proud to serve our local Philadelphia community and
                 build lasting relationships with our customers.
               </p>
@@ -129,10 +129,10 @@ export default function AboutPage() {
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-8">
+              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-10">
                 Serving the Philadelphia Area
               </h2>
-              <div className="space-y-5 text-neutral-600 text-lg leading-relaxed">
+              <div className="space-y-6 text-neutral-600 text-lg leading-loose">
                 <p>
                   We&apos;re located in Northeast Philadelphia and proudly serve
                   the broader Philadelphia area. Our current service model is
@@ -170,10 +170,10 @@ export default function AboutPage() {
       <section className="py-20 lg:py-28 bg-pink-600">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center text-white">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-8">
               Ready to Try Our Treats?
             </h2>
-            <p className="text-pink-100 mb-10 text-lg leading-relaxed">
+            <p className="text-pink-100 mb-12 text-lg leading-loose">
               Browse our weekly menu or get in touch for a custom cake inquiry.
               We can&apos;t wait to bake something special for you!
             </p>

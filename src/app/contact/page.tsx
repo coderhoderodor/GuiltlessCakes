@@ -38,13 +38,13 @@ export default function ContactPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-pink-50 to-white py-16 lg:py-20">
+      <section className="bg-gradient-to-b from-pink-50 to-white py-32 lg:py-48">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-4">
+            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-10">
               Get in Touch
             </h1>
-            <p className="text-lg text-neutral-600">
+            <p className="text-lg text-neutral-600 leading-loose">
               Have a question or want to learn more? We&apos;d love to hear from
               you. Reach out using any of the methods below.
             </p>
@@ -53,62 +53,62 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 lg:py-20">
+      <section className="py-32 lg:py-48">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-20">
             {/* Contact Information */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-6">
+              <h2 className="text-2xl font-bold text-neutral-800 mb-10">
                 Contact Information
               </h2>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
+              <div className="space-y-10">
+                <div className="flex items-start gap-5">
                   <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-pink-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-800 mb-1">Email</h3>
+                    <h3 className="font-semibold text-neutral-800 mb-2">Email</h3>
                     <a
                       href="mailto:hello@guiltlesscakes.com"
                       className="text-pink-600 hover:text-pink-700"
                     >
                       hello@guiltlesscakes.com
                     </a>
-                    <p className="text-sm text-neutral-500 mt-1">
+                    <p className="text-sm text-neutral-500 mt-3 leading-relaxed">
                       We typically respond within 24-48 hours
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-5">
                   <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Phone className="w-6 h-6 text-pink-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-800 mb-1">Phone</h3>
+                    <h3 className="font-semibold text-neutral-800 mb-2">Phone</h3>
                     <a
                       href="tel:+12155550123"
                       className="text-pink-600 hover:text-pink-700"
                     >
                       (215) 555-0123
                     </a>
-                    <p className="text-sm text-neutral-500 mt-1">
+                    <p className="text-sm text-neutral-500 mt-3 leading-relaxed">
                       For order-related inquiries only
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-5">
                   <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-6 h-6 text-pink-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-800 mb-1">
+                    <h3 className="font-semibold text-neutral-800 mb-2">
                       Location
                     </h3>
                     <p className="text-neutral-600">Northeast Philadelphia, PA</p>
-                    <p className="text-sm text-neutral-500 mt-1">
+                    <p className="text-sm text-neutral-500 mt-3 leading-relaxed">
                       Exact address provided upon order confirmation
                     </p>
                   </div>
@@ -116,11 +116,11 @@ export default function ContactPage() {
               </div>
 
               {/* Social Links */}
-              <div className="mt-8">
-                <h3 className="font-semibold text-neutral-800 mb-4">
+              <div className="mt-14">
+                <h3 className="font-semibold text-neutral-800 mb-6">
                   Follow Us
                 </h3>
-                <div className="flex gap-4">
+                <div className="flex gap-6">
                   <a
                     href={SOCIAL_LINKS.instagram}
                     target="_blank"
@@ -143,16 +143,16 @@ export default function ContactPage() {
               </div>
 
               {/* Business Hours */}
-              <div className="mt-8 p-6 bg-neutral-50 rounded-xl">
-                <h3 className="font-semibold text-neutral-800 mb-4">
+              <div className="mt-14 p-10 bg-neutral-50 rounded-xl">
+                <h3 className="font-semibold text-neutral-800 mb-6">
                   Pickup Hours
                 </h3>
-                <p className="text-neutral-600">
+                <p className="text-neutral-600 leading-loose">
                   <strong>Fridays Only</strong>
                   <br />
                   10:00 AM - 6:00 PM
                 </p>
-                <p className="text-sm text-neutral-500 mt-2">
+                <p className="text-sm text-neutral-500 mt-6 leading-loose">
                   Orders must be placed by Wednesday at 11:59 PM for Friday
                   pickup.
                 </p>
@@ -163,19 +163,19 @@ export default function ContactPage() {
             <div>
               <Card variant="elevated">
                 <CardContent>
-                  <h2 className="text-2xl font-bold text-neutral-800 mb-6">
+                  <h2 className="text-2xl font-bold text-neutral-800 mb-10">
                     Send Us a Message
                   </h2>
 
                   {isSubmitted ? (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="text-center py-10">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Check className="w-8 h-8 text-green-600" />
                       </div>
-                      <h3 className="text-xl font-semibold text-neutral-800 mb-2">
+                      <h3 className="text-xl font-semibold text-neutral-800 mb-5">
                         Message Sent!
                       </h3>
-                      <p className="text-neutral-600 mb-6">
+                      <p className="text-neutral-600 mb-10 leading-loose">
                         Thank you for reaching out. We&apos;ll get back to you as
                         soon as possible.
                       </p>
@@ -195,7 +195,7 @@ export default function ContactPage() {
                       </Button>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-14">
                       <Input
                         label="Name"
                         name="name"

@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative bg-[#fff0f5] pt-24 pb-32 lg:pt-40 lg:pb-48 overflow-hidden">
+      <section className="relative bg-[#fff0f5] pt-32 pb-40 lg:pt-48 lg:pb-56 overflow-hidden">
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[800px] h-[800px] bg-pink-200/30 rounded-full blur-3xl opacity-60 pointer-events-none" />
         <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-pink-300/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
@@ -14,17 +14,17 @@ export default function HomePage() {
         <div className="container relative z-10">
           <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm border border-pink-100 text-pink-700 rounded-full text-sm font-medium mb-8 animate-fadeIn">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/60 backdrop-blur-sm border border-pink-100 text-pink-700 rounded-full text-[10px] font-medium mb-8 animate-fadeIn uppercase tracking-wider">
                 <Sparkles className="w-4 h-4" />
                 <span>Boutique Home Bakery</span>
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-bold text-neutral-900 leading-[1.1] mb-8 tracking-tight animate-slideUp">
-                Handcrafted Treats, <br />
-                <span className="text-pink-600 italic font-serif">Made with Love</span>
+              <h1 className="text-5xl lg:text-7xl font-bold text-neutral-900 leading-[1.1] mb-10 tracking-tight animate-slideUp">
+                Sweet Moments, <br />
+                <span className="text-pink-600 italic font-serif">Baked Fresh</span>
               </h1>
 
-              <p className="text-xl text-neutral-600 mb-12 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light animate-slideUp" style={{ animationDelay: '0.1s' }}>
+              <p className="text-xl text-neutral-600 mb-14 max-w-2xl mx-auto lg:mx-0 leading-loose font-light animate-slideUp" style={{ animationDelay: '0.1s' }}>
                 Welcome to Guiltless Cakes, a boutique home bakery in Northeast
                 Philadelphia. We specialize in delicious cupcakes, slices, and
                 stunning custom celebration cakes for your special moments.
@@ -32,13 +32,13 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start animate-slideUp" style={{ animationDelay: '0.2s' }}>
                 <Link href="/menu">
-                  <Button size="lg" className="shadow-pink-200/50 shadow-lg hover:shadow-pink-300/50">
+                  <Button className="shadow-pink-200/50 shadow-lg hover:shadow-pink-300/50 text-[11px] !px-8 !py-4 !rounded-full">
                     View This Week&apos;s Menu
-                    <ArrowRight className="w-5 h-5 ml-2" />
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
                 <Link href="/custom-cakes">
-                  <Button variant="outline" size="lg" className="bg-white/50 backdrop-blur-sm border-pink-200 hover:bg-white">
+                  <Button variant="outline" className="bg-white/50 backdrop-blur-sm border-pink-200 hover:bg-white text-[11px] !px-8 !py-4 !rounded-full">
                     Custom Cake Inquiry
                   </Button>
                 </Link>
@@ -63,43 +63,43 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 lg:py-32 bg-white relative">
+      <section className="py-48 lg:py-64 bg-white relative">
         <div className="container">
-          <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
-            <div className="group text-center p-8 rounded-3xl hover:bg-neutral-50 transition-colors duration-300">
-              <div className="w-20 h-20 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300">
-                <Sparkles className="w-10 h-10 text-pink-500" />
+          <div className="grid md:grid-cols-3 gap-16 lg:gap-20">
+            <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
+              <div className="w-24 h-24 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-12 group-hover:scale-110 transition-transform duration-300">
+                <Sparkles className="w-12 h-12 text-pink-500" />
               </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 font-serif">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8 font-serif">
                 Fresh Weekly Menu
               </h3>
-              <p className="text-neutral-600 leading-relaxed text-lg font-light">
+              <p className="text-neutral-600 leading-loose text-base font-light">
                 Our menu rotates weekly with fresh, seasonal flavors. Order by
                 Wednesday for Friday pickup.
               </p>
             </div>
 
-            <div className="group text-center p-8 rounded-3xl hover:bg-neutral-50 transition-colors duration-300">
-              <div className="w-20 h-20 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300">
-                <Clock className="w-10 h-10 text-pink-500" />
+            <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
+              <div className="w-24 h-24 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-12 group-hover:scale-110 transition-transform duration-300">
+                <Clock className="w-12 h-12 text-pink-500" />
               </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 font-serif">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8 font-serif">
                 Friday Pickups
               </h3>
-              <p className="text-neutral-600 leading-relaxed text-lg font-light">
+              <p className="text-neutral-600 leading-loose text-base font-light">
                 Convenient 2-hour pickup windows on Fridays between 10 AM and 6
                 PM. Choose the slot that works for you.
               </p>
             </div>
 
-            <div className="group text-center p-8 rounded-3xl hover:bg-neutral-50 transition-colors duration-300">
-              <div className="w-20 h-20 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300">
-                <MapPin className="w-10 h-10 text-pink-500" />
+            <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
+              <div className="w-24 h-24 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-12 group-hover:scale-110 transition-transform duration-300">
+                <MapPin className="w-12 h-12 text-pink-500" />
               </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 font-serif">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8 font-serif">
                 Local & Personal
               </h3>
-              <p className="text-neutral-600 leading-relaxed text-lg font-light">
+              <p className="text-neutral-600 leading-loose text-base font-light">
                 Located in Northeast Philadelphia, serving the greater
                 Philadelphia area with care and attention to detail.
               </p>
@@ -109,21 +109,21 @@ export default function HomePage() {
       </section>
 
       {/* This Week's Menu Preview */}
-      <section className="py-24 lg:py-32 bg-neutral-50/50">
+      <section className="py-48 lg:py-64 bg-neutral-50/50">
         <div className="container">
-          <div className="text-center mb-20">
-            <span className="text-pink-600 font-medium tracking-wider uppercase text-sm mb-4 block">Fresh From The Oven</span>
-            <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6 font-serif">
+          <div className="text-center mb-28">
+            <span className="text-pink-600 font-medium tracking-wider uppercase text-[10px] mb-6 block">Fresh From The Oven</span>
+            <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-8 font-serif">
               This Week&apos;s Menu
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto text-xl leading-relaxed font-light">
+            <p className="text-neutral-600 max-w-2xl mx-auto text-xl leading-loose font-light">
               Discover our freshly baked selection for this week. All items are
               made to order and available for Friday pickup.
             </p>
           </div>
 
           {/* Menu Preview Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-14 lg:gap-16 mb-24">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
@@ -133,14 +133,14 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-pink-100/50 group-hover:bg-pink-100/30 transition-colors duration-300" />
                   <Sparkles className="w-16 h-16 text-pink-200 group-hover:scale-110 transition-transform duration-500" />
                 </div>
-                <div className="p-8">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="font-bold text-neutral-900 text-xl font-serif">
+                <div className="p-10">
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className="font-bold text-neutral-900 text-[15px] font-serif">
                       Delicious Treat {i}
                     </h3>
-                    <span className="text-pink-600 font-bold text-lg bg-pink-50 px-3 py-1 rounded-full">$4.50</span>
+                    <span className="text-pink-600 font-bold text-[10px] bg-pink-50 px-6 py-3 rounded-full">$4.50</span>
                   </div>
-                  <p className="text-neutral-500 mb-6 leading-relaxed">
+                  <p className="text-neutral-500 mb-10 leading-loose text-[13px]">
                     A delightful treat made with the finest ingredients, perfect for your sweet cravings.
                   </p>
                   <Button size="sm" variant="outline" className="w-full hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200">Add to Cart</Button>
@@ -161,9 +161,9 @@ export default function HomePage() {
       </section>
 
       {/* Custom Cakes CTA */}
-      <section className="py-24 lg:py-32">
+      <section className="py-48 lg:py-64">
         <div className="container">
-          <div className="relative rounded-[3rem] overflow-hidden bg-pink-900 text-white p-12 lg:p-24 text-center">
+          <div className="relative rounded-[3rem] overflow-hidden bg-pink-900 text-white p-20 lg:p-32 text-center">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -172,10 +172,10 @@ export default function HomePage() {
             </div>
 
             <div className="relative z-10 max-w-4xl mx-auto">
-              <h2 className="text-4xl lg:text-6xl font-bold mb-8 font-serif">
+              <h2 className="text-4xl lg:text-6xl font-bold mb-12 font-serif">
                 Planning a Special Celebration?
               </h2>
-              <p className="text-pink-100 mb-12 text-xl leading-relaxed font-light max-w-2xl mx-auto">
+              <p className="text-pink-100 mb-16 text-xl leading-loose font-light max-w-2xl mx-auto">
                 Let us create the perfect custom cake for your birthday, wedding,
                 anniversary, or any special occasion. We&apos;ll work with you to
                 bring your vision to life.
@@ -196,17 +196,17 @@ export default function HomePage() {
       </section>
 
       {/* About Preview */}
-      <section className="py-24 lg:py-32 bg-white">
+      <section className="py-48 lg:py-64 bg-white">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="grid lg:grid-cols-2 gap-20 lg:gap-28 items-center">
             <div className="order-2 lg:order-1">
-              <span className="inline-block px-4 py-1.5 bg-pink-100 text-pink-700 rounded-full text-sm font-medium mb-8">
+              <span className="inline-block px-6 py-3 bg-pink-100 text-pink-700 rounded-full text-[10px] font-medium mb-10 uppercase tracking-wider">
                 Our Story
               </span>
-              <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-8 font-serif leading-tight">
+              <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-10 font-serif leading-tight">
                 Baking with Passion <br />Since Day One
               </h2>
-              <div className="prose prose-lg text-neutral-600 font-light">
+              <div className="prose prose-lg text-neutral-600 font-light leading-loose">
                 <p>
                   Guiltless Cakes started as a passion project in a home kitchen
                   and has grown into a beloved local bakery. We believe in using
@@ -219,7 +219,7 @@ export default function HomePage() {
                   to serve the Northeast Philadelphia community and beyond.
                 </p>
               </div>
-              <div className="mt-10">
+              <div className="mt-14">
                 <Link href="/about">
                   <Button variant="outline" className="border-pink-200 text-pink-700 hover:bg-pink-50">
                     Learn More About Us
@@ -241,18 +241,18 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-24 lg:py-32 bg-neutral-50/50">
+      <section className="py-48 lg:py-64 bg-neutral-50/50">
         <div className="container">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6 font-serif">
+          <div className="text-center mb-28">
+            <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-8 font-serif">
               How It Works
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto text-xl font-light">
+            <p className="text-neutral-600 max-w-2xl mx-auto text-xl font-light leading-loose">
               Ordering from Guiltless Cakes is simple and convenient.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-12 relative">
+          <div className="grid md:grid-cols-4 gap-16 relative">
             {/* Connecting Line (Desktop) */}
             <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-pink-200 -z-10" />
 
@@ -279,13 +279,13 @@ export default function HomePage() {
               },
             ].map((item, index) => (
               <div key={index} className="text-center group">
-                <div className="w-24 h-24 bg-white border-4 border-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-8 text-2xl font-bold shadow-lg group-hover:scale-110 group-hover:border-pink-300 transition-all duration-300">
+                <div className="w-24 h-24 bg-white border-4 border-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-12 text-2xl font-bold shadow-lg group-hover:scale-110 group-hover:border-pink-300 transition-all duration-300">
                   {item.step}
                 </div>
-                <h3 className="text-xl font-bold text-neutral-900 mb-4 font-serif">
+                <h3 className="text-xl font-bold text-neutral-900 mb-6 font-serif">
                   {item.title}
                 </h3>
-                <p className="text-neutral-600 leading-relaxed font-light">{item.description}</p>
+                <p className="text-neutral-600 leading-loose font-light">{item.description}</p>
               </div>
             ))}
           </div>

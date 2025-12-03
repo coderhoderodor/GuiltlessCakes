@@ -207,13 +207,13 @@ export default function CustomCakesPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-pink-50 to-white py-12 lg:py-16">
+      <section className="bg-gradient-to-b from-pink-50 to-white py-32 lg:py-48">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-4">
+            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-10">
               Custom Cake Inquiry
             </h1>
-            <p className="text-lg text-neutral-600">
+            <p className="text-lg text-neutral-600 leading-loose">
               Tell us about your special celebration and we&apos;ll create the
               perfect custom cake. Fill out the form below and we&apos;ll get
               back to you with a personalized quote.
@@ -223,12 +223,12 @@ export default function CustomCakesPage() {
       </section>
 
       {/* Form Section */}
-      <section className="py-12 lg:py-16">
+      <section className="py-32 lg:py-48">
         <div className="container">
           <div className="max-w-2xl mx-auto">
             {/* Login Notice */}
             {!isAuthenticated && (
-              <div className="mb-8 p-4 bg-pink-50 rounded-xl flex items-start gap-3">
+              <div className="mb-10 p-5 bg-pink-50 rounded-xl flex items-start gap-4">
                 <Info className="w-5 h-5 text-pink-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-neutral-700">
@@ -258,16 +258,16 @@ export default function CustomCakesPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-16">
               {/* Step 1: Event Details */}
               <Card variant="outlined">
                 <CardContent>
-                  <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+                  <h2 className="text-xl font-semibold text-neutral-800 mb-10 flex items-center gap-3">
                     <Calendar className="w-5 h-5 text-pink-600" />
                     Event Details
                   </h2>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-12">
                     <Select
                       label="Event Type"
                       name="event_type"
@@ -308,12 +308,12 @@ export default function CustomCakesPage() {
               {/* Step 2: Cake Specifications */}
               <Card variant="outlined">
                 <CardContent>
-                  <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+                  <h2 className="text-xl font-semibold text-neutral-800 mb-10 flex items-center gap-3">
                     <Layers className="w-5 h-5 text-pink-600" />
                     Cake Specifications
                   </h2>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-12">
                     <Select
                       label="Number of Tiers"
                       name="tiers"
@@ -356,12 +356,12 @@ export default function CustomCakesPage() {
               {/* Step 3: Design Preferences */}
               <Card variant="outlined">
                 <CardContent>
-                  <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+                  <h2 className="text-xl font-semibold text-neutral-800 mb-10 flex items-center gap-3">
                     <Palette className="w-5 h-5 text-pink-600" />
                     Design Preferences
                   </h2>
 
-                  <div className="space-y-4">
+                  <div className="space-y-14">
                     <Input
                       label="Color Palette"
                       name="color_palette_text"
@@ -372,7 +372,7 @@ export default function CustomCakesPage() {
                     />
 
                     <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                      <label className="block text-[11px] font-medium text-neutral-700 mb-5 uppercase tracking-wider">
                         Dietary Requirements
                       </label>
                       <div className="flex flex-wrap gap-2">
@@ -427,12 +427,12 @@ export default function CustomCakesPage() {
               {/* Step 4: Inspiration Images */}
               <Card variant="outlined">
                 <CardContent>
-                  <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+                  <h2 className="text-xl font-semibold text-neutral-800 mb-10 flex items-center gap-3">
                     <Upload className="w-5 h-5 text-pink-600" />
                     Inspiration Images
                   </h2>
 
-                  <div className="space-y-4">
+                  <div className="space-y-14">
                     <p className="text-sm text-neutral-600">
                       Upload up to {MAX_INQUIRY_IMAGES} images for inspiration
                       (JPG, PNG, or WebP, max 5MB each)

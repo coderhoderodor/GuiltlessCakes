@@ -113,9 +113,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="py-8 lg:py-12">
+    <div className="py-12 lg:py-20">
       <div className="container">
-        <div className="mb-8">
+        <div className="mb-10">
           <Link
             href="/menu"
             className="inline-flex items-center text-neutral-600 hover:text-pink-600 transition-colors"
@@ -125,20 +125,20 @@ export default function CheckoutPage() {
           </Link>
         </div>
 
-        <h1 className="text-3xl font-bold text-neutral-800 mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-neutral-800 mb-10">Checkout</h1>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-10">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             {/* Pickup Information */}
             <Card variant="outlined">
               <CardContent>
-                <h2 className="text-xl font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-pink-600" />
                   Pickup Information
                 </h2>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div className="p-4 bg-pink-50 rounded-lg">
                     <p className="font-medium text-neutral-800">
                       {formatDate(nextFriday)}
@@ -169,14 +169,14 @@ export default function CheckoutPage() {
             {/* Order Items */}
             <Card variant="outlined">
               <CardContent>
-                <h2 className="text-xl font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-3">
                   <ShoppingBag className="w-5 h-5 text-pink-600" />
                   Order Items ({cart.items.length})
                 </h2>
 
                 <ul className="divide-y divide-neutral-100">
                   {cart.items.map((item) => (
-                    <li key={item.menuItemId} className="py-4 flex gap-4">
+                    <li key={item.menuItemId} className="py-5 flex gap-5">
                       <div className="w-16 h-16 bg-pink-50 rounded-lg flex items-center justify-center flex-shrink-0">
                         {item.imageUrl ? (
                           <Image
@@ -212,11 +212,11 @@ export default function CheckoutPage() {
             {/* Customer Information */}
             <Card variant="outlined">
               <CardContent>
-                <h2 className="text-xl font-semibold text-neutral-800 mb-4">
+                <h2 className="text-xl font-semibold text-neutral-800 mb-6">
                   Customer Information
                 </h2>
 
-                <div className="space-y-2 text-neutral-600">
+                <div className="space-y-3 text-neutral-600">
                   <p>
                     <strong>Name:</strong> {profile?.first_name}{' '}
                     {profile?.last_name}
@@ -244,11 +244,11 @@ export default function CheckoutPage() {
             <div className="sticky top-24">
               <Card variant="elevated">
                 <CardContent>
-                  <h2 className="text-xl font-semibold text-neutral-800 mb-4">
+                  <h2 className="text-xl font-semibold text-neutral-800 mb-6">
                     Order Summary
                   </h2>
 
-                  <div className="space-y-3 text-neutral-600">
+                  <div className="space-y-4 text-neutral-600">
                     <div className="flex justify-between">
                       <span>Subtotal</span>
                       <span>{formatCurrency(subtotal)}</span>

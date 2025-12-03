@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button, Input, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 
@@ -50,13 +50,13 @@ export default function ResetPasswordPage() {
       <div className="min-h-[60vh] flex items-center justify-center py-12 px-4">
         <Card variant="elevated" className="w-full max-w-md text-center">
           <CardContent>
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Check className="w-8 h-8 text-green-600" />
             </div>
-            <h2 className="text-xl font-semibold text-neutral-800 mb-2">
+            <h2 className="text-xl font-semibold text-neutral-800 mb-4">
               Password Updated!
             </h2>
-            <p className="text-neutral-600">
+            <p className="text-neutral-600 leading-loose">
               Your password has been successfully updated. You&apos;ll be
               redirected to sign in shortly.
             </p>
@@ -71,50 +71,46 @@ export default function ResetPasswordPage() {
       <Card variant="elevated" className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Reset Password</CardTitle>
-          <p className="text-center text-neutral-500 mt-2">
+          <p className="text-center text-neutral-500 mt-6">
             Enter your new password below
           </p>
         </CardHeader>
         <CardContent>
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-              <Input
-                type="password"
-                placeholder="New password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={8}
-                className="pl-10"
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-14">
+            <Input
+              type="password"
+              label="New Password"
+              placeholder="At least 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+            />
 
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-              <Input
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                className="pl-10"
-              />
-            </div>
+            <Input
+              type="password"
+              label="Confirm New Password"
+              placeholder="Re-enter your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
 
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-neutral-500 leading-relaxed pt-2">
               Password must be at least 8 characters long.
             </p>
 
-            <Button type="submit" fullWidth isLoading={isLoading}>
-              Update Password
-            </Button>
+            <div className="pt-4">
+              <Button type="submit" fullWidth isLoading={isLoading}>
+                Update Password
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

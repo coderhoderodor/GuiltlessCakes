@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, Phone, Globe, Lock, Check } from 'lucide-react';
+import { User, Lock, Check } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   Button,
@@ -133,36 +133,36 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="py-8 lg:py-12">
+    <div className="py-20 lg:py-32">
       <div className="container max-w-2xl">
-        <h1 className="text-3xl font-bold text-neutral-800 mb-8">
+        <h1 className="text-3xl font-bold text-neutral-800 mb-14">
           Account Settings
         </h1>
 
-        <div className="space-y-8">
+        <div className="space-y-12">
           {/* Profile Information */}
           <Card variant="outlined">
             <CardContent>
-              <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-neutral-800 mb-10 flex items-center gap-3">
                 <User className="w-5 h-5 text-pink-600" />
                 Profile Information
               </h2>
 
               {profileError && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
                   {profileError}
                 </div>
               )}
 
               {profileSuccess && (
-                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm flex items-center gap-2">
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-600 text-sm flex items-center gap-2">
                   <Check className="w-4 h-4" />
                   Profile updated successfully
                 </div>
               )}
 
-              <form onSubmit={handleProfileSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
+              <form onSubmit={handleProfileSubmit} className="space-y-14">
+                <div className="grid sm:grid-cols-2 gap-10">
                   <Input
                     label="First Name"
                     name="first_name"
@@ -187,37 +187,32 @@ export default function SettingsPage() {
                   helperText="Email cannot be changed"
                 />
 
-                <div className="relative">
-                  <Phone className="absolute left-3 top-9 w-5 h-5 text-neutral-400" />
-                  <Input
-                    label="Phone Number"
-                    name="phone"
-                    value={profileData.phone}
-                    onChange={handleProfileChange}
-                    required
-                    className="pl-10"
-                    helperText="Used for pickup coordination"
-                  />
-                </div>
+                <Input
+                  label="Phone Number"
+                  name="phone"
+                  value={profileData.phone}
+                  onChange={handleProfileChange}
+                  required
+                  placeholder="(555) 123-4567"
+                  helperText="Used for pickup coordination"
+                />
 
-                <div className="relative">
-                  <Globe className="absolute left-3 top-9 w-5 h-5 text-neutral-400" />
-                  <Select
-                    label="Preferred Language"
-                    name="preferred_language"
-                    value={profileData.preferred_language}
-                    onChange={handleProfileChange}
-                    options={SUPPORTED_LANGUAGES.map((lang) => ({
-                      value: lang.code,
-                      label: `${lang.flag} ${lang.label}`,
-                    }))}
-                    className="pl-10"
-                  />
-                </div>
+                <Select
+                  label="Preferred Language"
+                  name="preferred_language"
+                  value={profileData.preferred_language}
+                  onChange={handleProfileChange}
+                  options={SUPPORTED_LANGUAGES.map((lang) => ({
+                    value: lang.code,
+                    label: `${lang.flag} ${lang.label}`,
+                  }))}
+                />
 
-                <Button type="submit" isLoading={profileSaving}>
-                  Save Changes
-                </Button>
+                <div className="pt-4">
+                  <Button type="submit" isLoading={profileSaving}>
+                    Save Changes
+                  </Button>
+                </div>
               </form>
             </CardContent>
           </Card>
@@ -225,25 +220,25 @@ export default function SettingsPage() {
           {/* Change Password */}
           <Card variant="outlined">
             <CardContent>
-              <h2 className="text-xl font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-neutral-800 mb-10 flex items-center gap-3">
                 <Lock className="w-5 h-5 text-pink-600" />
                 Change Password
               </h2>
 
               {passwordError && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
                   {passwordError}
                 </div>
               )}
 
               {passwordSuccess && (
-                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm flex items-center gap-2">
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-600 text-sm flex items-center gap-2">
                   <Check className="w-4 h-4" />
                   Password updated successfully
                 </div>
               )}
 
-              <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <form onSubmit={handlePasswordSubmit} className="space-y-14">
                 <Input
                   type="password"
                   label="New Password"
@@ -263,13 +258,15 @@ export default function SettingsPage() {
                   required
                 />
 
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-neutral-500 leading-relaxed pt-2">
                   Password must be at least 8 characters long.
                 </p>
 
-                <Button type="submit" isLoading={passwordSaving}>
-                  Update Password
-                </Button>
+                <div className="pt-4">
+                  <Button type="submit" isLoading={passwordSaving}>
+                    Update Password
+                  </Button>
+                </div>
               </form>
             </CardContent>
           </Card>
@@ -277,10 +274,10 @@ export default function SettingsPage() {
           {/* Account Information */}
           <Card variant="outlined">
             <CardContent>
-              <h2 className="text-lg font-semibold text-neutral-800 mb-4">
+              <h2 className="text-lg font-semibold text-neutral-800 mb-8">
                 Account Information
               </h2>
-              <div className="text-sm text-neutral-600 space-y-2">
+              <div className="text-sm text-neutral-600 space-y-4">
                 <p>
                   <strong>Member since:</strong>{' '}
                   {profile?.created_at

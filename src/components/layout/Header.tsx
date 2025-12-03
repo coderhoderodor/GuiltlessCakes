@@ -30,7 +30,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-100">
       <div className="container">
-        <div className="flex items-center justify-between h-16 lg:h-[72px]">
+        <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <span className="text-xl lg:text-2xl font-bold text-pink-600">
@@ -39,7 +39,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-10">
+          <nav className="hidden lg:flex items-center gap-12">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -52,7 +52,7 @@ export function Header() {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-3 lg:gap-5">
+          <div className="flex items-center gap-6 lg:gap-10">
             {/* Language Selector */}
             <div className="relative hidden sm:block">
               <button
@@ -186,31 +186,31 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-neutral-100 py-5 animate-slideUp">
-            <nav className="flex flex-col gap-1">
+          <div className="lg:hidden border-t border-neutral-100 py-6 animate-slideUp">
+            <nav className="flex flex-col gap-2">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-3 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                  className="px-4 py-4 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
-              <hr className="my-3 border-neutral-100" />
+              <hr className="my-4 border-neutral-100" />
               {isAuthenticated ? (
                 <>
                   <Link
                     href="/account/orders"
-                    className="px-4 py-3 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="px-4 py-4 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {t(translations.nav.orders)}
                   </Link>
                   <Link
                     href="/account/settings"
-                    className="px-4 py-3 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="px-4 py-4 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {t(translations.nav.settings)}
@@ -218,7 +218,7 @@ export function Header() {
                   {isAdmin && (
                     <Link
                       href="/admin"
-                      className="px-4 py-3 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
+                      className="px-4 py-4 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Admin Dashboard
@@ -229,7 +229,7 @@ export function Header() {
                       handleSignOut();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="px-4 py-3 text-left text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
+                    className="px-4 py-4 text-left text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
                   >
                     {t(translations.nav.signOut)}
                   </button>
@@ -237,20 +237,20 @@ export function Header() {
               ) : (
                 <Link
                   href="/auth/login"
-                  className="px-4 py-3 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
+                  className="px-4 py-4 text-pink-600 font-medium hover:bg-pink-50 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t(translations.nav.signIn)}
                 </Link>
               )}
-              <hr className="my-3 border-neutral-100" />
+              <hr className="my-4 border-neutral-100" />
               <div className="px-4 flex gap-3">
                 {SUPPORTED_LANGUAGES.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => setLanguage(lang.code as 'en' | 'es' | 'pt')}
                     className={cn(
-                      'px-3 py-1 text-sm rounded-full transition-colors',
+                      'px-5 py-2.5 text-[10px] rounded-full transition-colors uppercase tracking-wider font-medium',
                       language === lang.code
                         ? 'bg-pink-100 text-pink-600'
                         : 'bg-neutral-100 text-neutral-600'

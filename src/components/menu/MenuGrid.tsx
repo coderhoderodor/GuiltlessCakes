@@ -99,7 +99,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
 
   return (
     <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-14">
         {items.map((scheduleItem) => {
           const item = scheduleItem.menu_item;
           const translation = getTranslation(item);
@@ -131,11 +131,11 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
 
                 {/* Dietary Tags Overlay */}
                 {item.dietary_tags?.length > 0 && (
-                  <div className="absolute top-3 left-3 flex gap-1.5">
+                  <div className="absolute top-4 left-4 flex gap-2">
                     {item.dietary_tags.map((tag) => (
                       <span
                         key={tag}
-                        className="bg-white/90 backdrop-blur-sm text-pink-600 px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1"
+                        className="bg-white/95 backdrop-blur-sm text-pink-700 px-5 py-2.5 rounded-full text-[10px] font-semibold flex items-center gap-1.5 shadow-sm uppercase tracking-wider"
                       >
                         {dietaryIcons[tag]}
                         {tag}
@@ -155,14 +155,14 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
               </div>
 
               {/* Content */}
-              <div className="p-5">
+              <div className="p-10">
                 <h3
-                  className="font-semibold text-neutral-800 mb-2 cursor-pointer hover:text-pink-600 transition-colors text-lg"
+                  className="font-semibold text-neutral-800 mb-6 cursor-pointer hover:text-pink-600 transition-colors text-[15px]"
                   onClick={() => setSelectedItem(scheduleItem)}
                 >
                   {translation?.name}
                 </h3>
-                <p className="text-sm text-neutral-500 line-clamp-2 mb-4 leading-relaxed">
+                <p className="text-[13px] text-neutral-500 line-clamp-2 mb-10 leading-loose">
                   {translation?.description}
                 </p>
 
@@ -186,7 +186,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
                 </div>
 
                 {!isSoldOut && available <= 5 && !orderingClosed && (
-                  <p className="text-xs text-orange-600 mt-3">
+                  <p className="text-xs text-orange-600 mt-6">
                     Only {available} left!
                   </p>
                 )}
@@ -203,7 +203,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
           onClose={() => setSelectedItem(null)}
           size="lg"
         >
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-14">
             {/* Image */}
             <div className="aspect-square bg-pink-50 rounded-xl relative">
               {selectedItem.menu_item.image_url ? (
@@ -222,17 +222,17 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
 
             {/* Details */}
             <div>
-              <h2 className="text-2xl font-bold text-neutral-800 mb-3">
+              <h2 className="text-2xl font-bold text-neutral-800 mb-6">
                 {getTranslation(selectedItem.menu_item)?.name}
               </h2>
 
-              <p className="text-2xl font-semibold text-pink-600 mb-5">
+              <p className="text-2xl font-semibold text-pink-600 mb-8">
                 {formatCurrency(selectedItem.menu_item.base_price)}
               </p>
 
               {/* Dietary Tags */}
               {selectedItem.menu_item.dietary_tags?.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-5">
+                <div className="flex flex-wrap gap-3 mb-8">
                   {selectedItem.menu_item.dietary_tags.map((tag) => (
                     <Badge key={tag} variant="primary">
                       {dietaryIcons[tag]}
@@ -242,14 +242,14 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
                 </div>
               )}
 
-              <p className="text-neutral-600 mb-8 leading-relaxed">
+              <p className="text-neutral-600 mb-12 leading-loose">
                 {getTranslation(selectedItem.menu_item)?.description}
               </p>
 
               {/* Add to Cart */}
               {!orderingClosed && getAvailableQuantity(selectedItem) > 0 && (
-                <div className="space-y-5">
-                  <div className="flex items-center gap-5">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-6">
                     <span className="text-neutral-600">Quantity:</span>
                     <div className="flex items-center gap-3">
                       <button
@@ -305,7 +305,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
               )}
 
               {orderingClosed && (
-                <div className="bg-neutral-100 rounded-xl p-5 text-center">
+                <div className="bg-neutral-100 rounded-xl p-6 text-center">
                   <p className="text-neutral-600">
                     Ordering is closed for this week
                   </p>
@@ -313,7 +313,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
               )}
 
               {!orderingClosed && getAvailableQuantity(selectedItem) <= 0 && (
-                <div className="bg-red-50 rounded-xl p-5 text-center">
+                <div className="bg-red-50 rounded-xl p-6 text-center">
                   <p className="text-red-600 font-medium">Sold Out</p>
                 </div>
               )}

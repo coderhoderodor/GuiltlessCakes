@@ -64,19 +64,19 @@ export default async function OrdersPage() {
   );
 
   return (
-    <div className="py-8 lg:py-12">
+    <div className="py-20 lg:py-32">
       <div className="container max-w-4xl">
-        <h1 className="text-3xl font-bold text-neutral-800 mb-8">My Orders</h1>
+        <h1 className="text-3xl font-bold text-neutral-800 mb-14">My Orders</h1>
 
         {/* Upcoming Orders */}
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+        <section className="mb-16">
+          <h2 className="text-xl font-semibold text-neutral-800 mb-8 flex items-center gap-3">
             <Package className="w-5 h-5 text-pink-600" />
             Upcoming Orders
           </h2>
 
           {upcomingOrders.length > 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-8">
               {upcomingOrders.map((order) => {
                 const status = ORDER_STATUSES.find((s) => s.value === order.status);
 
@@ -85,7 +85,7 @@ export default async function OrdersPage() {
                     <CardContent>
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <div className="flex items-center gap-3 mb-2">
+                          <div className="flex items-center gap-3 mb-3">
                             <h3 className="font-semibold text-neutral-800">
                               Order #{order.id.slice(0, 8).toUpperCase()}
                             </h3>
@@ -93,17 +93,17 @@ export default async function OrdersPage() {
                               {status?.label}
                             </Badge>
                           </div>
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-600">
-                            <span className="flex items-center gap-1">
+                          <div className="flex flex-wrap items-center gap-5 text-sm text-neutral-600">
+                            <span className="flex items-center gap-2">
                               <Calendar className="w-4 h-4" />
                               {formatDate(order.pickup_date)}
                             </span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-2">
                               <Clock className="w-4 h-4" />
                               {order.pickup_window?.label}
                             </span>
                           </div>
-                          <p className="text-sm text-neutral-500 mt-1">
+                          <p className="text-sm text-neutral-500 mt-3">
                             {order.order_items?.length} item(s) -{' '}
                             {formatCurrency(order.total_amount)}
                           </p>
@@ -122,9 +122,9 @@ export default async function OrdersPage() {
             </div>
           ) : (
             <Card variant="outlined">
-              <CardContent className="text-center py-8">
-                <ShoppingBag className="w-12 h-12 text-neutral-300 mx-auto mb-3" />
-                <p className="text-neutral-500 mb-4">No upcoming orders</p>
+              <CardContent className="text-center py-12">
+                <ShoppingBag className="w-12 h-12 text-neutral-300 mx-auto mb-5" />
+                <p className="text-neutral-500 mb-6">No upcoming orders</p>
                 <Link href="/menu">
                   <Button>Browse Menu</Button>
                 </Link>
@@ -135,12 +135,12 @@ export default async function OrdersPage() {
 
         {/* Custom Cake Inquiries */}
         {inquiries.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-xl font-semibold text-neutral-800 mb-4">
+          <section className="mb-16">
+            <h2 className="text-xl font-semibold text-neutral-800 mb-8">
               Custom Cake Inquiries
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-8">
               {inquiries.map((inquiry) => {
                 const status = INQUIRY_STATUSES.find(
                   (s) => s.value === inquiry.status
@@ -151,7 +151,7 @@ export default async function OrdersPage() {
                     <CardContent>
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <div className="flex items-center gap-3 mb-2">
+                          <div className="flex items-center gap-3 mb-3">
                             <h3 className="font-semibold text-neutral-800 capitalize">
                               {inquiry.event_type.replace('_', ' ')} Cake
                             </h3>
@@ -159,7 +159,7 @@ export default async function OrdersPage() {
                               {status?.label}
                             </Badge>
                           </div>
-                          <p className="text-sm text-neutral-600">
+                          <p className="text-sm text-neutral-600 mb-2">
                             Event Date: {formatDate(inquiry.event_date)}
                           </p>
                           <p className="text-sm text-neutral-500">
@@ -182,11 +182,11 @@ export default async function OrdersPage() {
         {/* Past Orders */}
         {pastOrders.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold text-neutral-800 mb-4">
+            <h2 className="text-xl font-semibold text-neutral-800 mb-8">
               Past Orders
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-8">
               {pastOrders.map((order) => {
                 const status = ORDER_STATUSES.find((s) => s.value === order.status);
 
@@ -195,7 +195,7 @@ export default async function OrdersPage() {
                     <CardContent>
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <div className="flex items-center gap-3 mb-2">
+                          <div className="flex items-center gap-3 mb-3">
                             <h3 className="font-medium text-neutral-700">
                               Order #{order.id.slice(0, 8).toUpperCase()}
                             </h3>
