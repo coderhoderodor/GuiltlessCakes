@@ -5,35 +5,21 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { createInquiryService } from '@/lib/services';
+import { verifyAdmin, isAdminAuthError } from '@/lib/auth';
+import { inquiryStatusSchema } from '@/lib/validation';
 import type { InquiryStatus } from '@/types';
 
-async function verifyAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { error: 'Unauthorized', status: 401 };
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.is_admin) {
-    return { error: 'Forbidden', status: 403 };
-  }
-
-  return { user, supabase };
-}
+// Valid inquiry statuses for filtering
+const VALID_INQUIRY_STATUSES = [
+  'new', 'in_review', 'quoted', 'accepted', 'in_progress',
+  'ready_for_pickup', 'completed', 'rejected', 'closed'
+] as const;
 
 export async function GET(request: NextRequest) {
   try {
     const auth = await verifyAdmin();
-    if ('error' in auth) {
+    if (isAdminAuthError(auth)) {
       return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
@@ -42,9 +28,22 @@ export async function GET(request: NextRequest) {
 
     const inquiryService = createInquiryService(auth.supabase);
 
-    let inquiries;
+    // Validate status parameter if provided
+    let validatedStatus: InquiryStatus | undefined;
     if (status) {
-      inquiries = await inquiryService.getInquiriesByStatus(status as InquiryStatus);
+      const result = inquiryStatusSchema.safeParse(status);
+      if (!result.success) {
+        return NextResponse.json(
+          { error: 'Invalid status parameter', validStatuses: VALID_INQUIRY_STATUSES },
+          { status: 400 }
+        );
+      }
+      validatedStatus = result.data;
+    }
+
+    let inquiries;
+    if (validatedStatus) {
+      inquiries = await inquiryService.getInquiriesByStatus(validatedStatus);
     } else {
       inquiries = await inquiryService.getAllInquiries();
     }

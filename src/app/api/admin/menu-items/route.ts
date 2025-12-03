@@ -6,30 +6,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { createMenuService } from '@/lib/services';
 import { validate, createMenuItemSchema } from '@/lib/validation';
-
-async function verifyAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { error: 'Unauthorized', status: 401 };
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.is_admin) {
-    return { error: 'Forbidden', status: 403 };
-  }
-
-  return { user, supabase };
-}
+import { verifyAdmin, isAdminAuthError } from '@/lib/auth';
 
 export async function GET() {
   try {
