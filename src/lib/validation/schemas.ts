@@ -250,6 +250,21 @@ export const businessInfoSettingSchema = z.object({
 });
 
 // ============================================
+// Checkout Schemas
+// ============================================
+export const checkoutItemSchema = z.object({
+  menuItemId: z.string().uuid(),
+  quantity: z.number().int().positive().max(10),
+  name: z.string().min(1).max(100),
+});
+
+export const checkoutRequestSchema = z.object({
+  items: z.array(checkoutItemSchema).min(1).max(20),
+  pickupDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date format (YYYY-MM-DD)'),
+  pickupWindowId: z.string().uuid(),
+});
+
+// ============================================
 // Type Exports
 // ============================================
 export type CreateMenuItemInput = z.infer<typeof createMenuItemSchema>;
@@ -268,3 +283,4 @@ export type CreatePickupWindowInput = z.infer<typeof createPickupWindowSchema>;
 export type UpdatePickupWindowInput = z.infer<typeof updatePickupWindowSchema>;
 export type CreateProfileInput = z.infer<typeof createProfileSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+export type CheckoutRequestInput = z.infer<typeof checkoutRequestSchema>;

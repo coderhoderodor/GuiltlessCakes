@@ -18,65 +18,75 @@ async function getDashboardData() {
   const nextFriday = getNextFriday();
   const pickupDate = nextFriday.toISOString().split('T')[0];
 
-  // Get upcoming orders count
-  const { count: upcomingOrdersCount } = await supabase
-    .from('orders')
-    .select('*', { count: 'exact', head: true })
-    .eq('pickup_date', pickupDate)
-    .in('status', ['paid', 'prepping', 'ready']);
+  // Execute all queries in parallel for better performance
+  const [
+    upcomingOrdersResult,
+    newInquiriesResult,
+    weekRevenueResult,
+    lowInventoryResult,
+    recentOrdersResult,
+    ordersByWindowResult,
+  ] = await Promise.all([
+    // Get upcoming orders count
+    supabase
+      .from('orders')
+      .select('*', { count: 'exact', head: true })
+      .eq('pickup_date', pickupDate)
+      .in('status', ['paid', 'prepping', 'ready']),
 
-  // Get new inquiries count
-  const { count: newInquiriesCount } = await supabase
-    .from('inquiries')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'new');
+    // Get new inquiries count
+    supabase
+      .from('inquiries')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'new'),
 
-  // Get revenue for this week
-  const { data: weekRevenue } = await supabase
-    .from('orders')
-    .select('total_amount')
-    .eq('pickup_date', pickupDate)
-    .in('status', ['paid', 'prepping', 'ready', 'picked_up']);
+    // Get revenue for this week
+    supabase
+      .from('orders')
+      .select('total_amount')
+      .eq('pickup_date', pickupDate)
+      .in('status', ['paid', 'prepping', 'ready', 'picked_up']),
 
-  const totalRevenue = weekRevenue?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
+    // Get low inventory items
+    supabase
+      .from('inventory')
+      .select(`
+        *,
+        menu_item:menu_items (
+          translations:menu_item_translations (name, language)
+        )
+      `)
+      .eq('pickup_date', pickupDate)
+      .lt('daily_cap', 5),
 
-  // Get low inventory items
-  const { data: lowInventory } = await supabase
-    .from('inventory')
-    .select(`
-      *,
-      menu_item:menu_items (
-        translations:menu_item_translations (name, language)
-      )
-    `)
-    .eq('pickup_date', pickupDate)
-    .lt('daily_cap', 5);
+    // Get recent orders
+    supabase
+      .from('orders')
+      .select(`
+        *,
+        pickup_window:pickup_windows (label),
+        profile:profiles (first_name, last_name)
+      `)
+      .order('created_at', { ascending: false })
+      .limit(5),
 
-  // Get recent orders
-  const { data: recentOrders } = await supabase
-    .from('orders')
-    .select(`
-      *,
-      pickup_window:pickup_windows (label),
-      profile:profiles (first_name, last_name)
-    `)
-    .order('created_at', { ascending: false })
-    .limit(5);
+    // Get orders by pickup window
+    supabase
+      .from('orders')
+      .select('pickup_window_id, pickup_window:pickup_windows (label)')
+      .eq('pickup_date', pickupDate)
+      .in('status', ['paid', 'prepping', 'ready']),
+  ]);
 
-  // Get orders by pickup window
-  const { data: ordersByWindow } = await supabase
-    .from('orders')
-    .select('pickup_window_id, pickup_window:pickup_windows (label)')
-    .eq('pickup_date', pickupDate)
-    .in('status', ['paid', 'prepping', 'ready']);
+  const totalRevenue = weekRevenueResult.data?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
 
   return {
-    upcomingOrdersCount: upcomingOrdersCount || 0,
-    newInquiriesCount: newInquiriesCount || 0,
+    upcomingOrdersCount: upcomingOrdersResult.count || 0,
+    newInquiriesCount: newInquiriesResult.count || 0,
     totalRevenue,
-    lowInventory: lowInventory || [],
-    recentOrders: recentOrders || [],
-    ordersByWindow: ordersByWindow || [],
+    lowInventory: lowInventoryResult.data || [],
+    recentOrders: recentOrdersResult.data || [],
+    ordersByWindow: ordersByWindowResult.data || [],
     pickupDate,
   };
 }

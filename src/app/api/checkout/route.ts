@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
 import { DEFAULT_SERVICE_FEE_RATE } from '@/lib/constants';
+import { validate, checkoutRequestSchema } from '@/lib/validation';
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,18 +19,35 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { items, pickupDate, pickupWindowId } = body;
 
-    if (!items || items.length === 0) {
+    // Validate request body with Zod schema
+    const validation = validate(checkoutRequestSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'No items in cart' },
+        { error: 'Validation failed', details: validation.errors },
         { status: 400 }
       );
     }
 
-    if (!pickupDate || !pickupWindowId) {
+    const { items, pickupDate, pickupWindowId } = validation.data!;
+
+    // Verify pickup window exists and is active
+    const { data: pickupWindow, error: windowError } = await supabase
+      .from('pickup_windows')
+      .select('id, active')
+      .eq('id', pickupWindowId)
+      .single();
+
+    if (windowError || !pickupWindow) {
       return NextResponse.json(
-        { error: 'Pickup date and window required' },
+        { error: 'Invalid pickup window' },
+        { status: 400 }
+      );
+    }
+
+    if (!pickupWindow.active) {
+      return NextResponse.json(
+        { error: 'Selected pickup window is not available' },
         { status: 400 }
       );
     }
