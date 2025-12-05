@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-24 lg:pt-24 lg:pb-28 overflow-hidden bg-pink-50">
+      <section className="relative min-h-[85vh] pt-32 pb-40 lg:pt-40 lg:pb-48 overflow-hidden bg-pink-50">
         {/* Animated Flowers - Grouped and Rotated */}
         <div className="absolute right-[5%] top-[5%] w-[500px] h-[400px]" style={{ transform: 'rotate(-20deg)' }}>
           <svg className="absolute right-[55%] top-[40%] w-96 h-96 z-20 animate-flowerBloom" style={{ animationDelay: '0.3s', transform: 'rotate(20deg)' }} viewBox="0 0 100 100">
