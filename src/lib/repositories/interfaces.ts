@@ -167,6 +167,10 @@ export interface IOrderRepository extends ICrudRepository<Order, CreateOrderDTO,
   findWithItems(id: string): Promise<Order | null>;
   findByDateWithDetails(pickupDate: string): Promise<Order[]>;
   updateStatus(id: string, status: OrderStatus): Promise<Order>;
+  createWithItemsAtomic(
+    orderData: Omit<CreateOrderDTO, 'items'>,
+    items: CreateOrderItemDTO[]
+  ): Promise<string>;
 }
 
 // ============================================

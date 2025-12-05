@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
 import { DEFAULT_SERVICE_FEE_RATE } from '@/lib/constants';
+import { rateLimit, createRateLimitKey, getClientIp, RATE_LIMITS } from '@/lib/rate-limit';
+import { env } from '@/lib/env';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,6 +16,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Rate limit check - 10 requests per minute per user
+    const ip = getClientIp(request.headers);
+    const rateLimitKey = createRateLimitKey(user.id, ip, 'checkout');
+    const rateLimitResult = rateLimit(rateLimitKey, RATE_LIMITS.checkout);
+
+    if (!rateLimitResult.success) {
+      const retryAfter = Math.ceil((rateLimitResult.reset - Date.now()) / 1000);
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(retryAfter) },
+        }
       );
     }
 
@@ -111,8 +129,8 @@ export async function POST(request: NextRequest) {
           quantity: item.quantity,
         }))),
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout`,
+      success_url: `${env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${env.NEXT_PUBLIC_APP_URL}/checkout`,
       automatic_tax: {
         enabled: true,
       },

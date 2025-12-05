@@ -1,14 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import { stripe, constructWebhookEvent } from '@/lib/stripe';
+import { constructWebhookEvent } from '@/lib/stripe';
 import { createClient } from '@supabase/supabase-js';
+import { env } from '@/lib/env';
+import { OrderService } from '@/lib/services/order.service';
+import { OrderRepository } from '@/lib/repositories/supabase/order.repository';
 
 // Create admin client for webhook processing
 const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  env.NEXT_PUBLIC_SUPABASE_URL,
+  env.SUPABASE_SERVICE_ROLE_KEY
 );
+
+// Initialize service with repository
+const orderRepository = new OrderRepository(supabaseAdmin);
+const orderService = new OrderService(orderRepository);
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -72,71 +79,27 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleSuccessfulPayment(session: Stripe.Checkout.Session) {
-  const metadata = session.metadata || {};
-
-  // Check if order already exists
-  const { data: existingOrder } = await supabaseAdmin
-    .from('orders')
-    .select('id')
-    .eq('stripe_session_id', session.id)
-    .single();
-
-  if (existingOrder) {
-    console.log('Order already exists:', existingOrder.id);
-    return;
-  }
-
-  const items = JSON.parse(metadata.items || '[]');
-  const subtotal = (session.amount_subtotal || 0) / 100;
-  const total = (session.amount_total || 0) / 100;
-  const tax = (session.total_details?.amount_tax || 0) / 100;
-
-  // Get pickup window ID
-  const { data: pickupWindow } = await supabaseAdmin
-    .from('pickup_windows')
-    .select('id')
-    .eq('label', metadata.pickup_window)
-    .single();
-
-  // Create order
-  const { data: order, error: orderError } = await supabaseAdmin
-    .from('orders')
-    .insert({
-      user_id: metadata.user_id,
-      pickup_date: metadata.pickup_date,
-      pickup_window_id: pickupWindow?.id,
-      status: 'paid',
-      subtotal_amount: subtotal * 0.95,
-      service_fee_amount: subtotal * 0.05,
-      tax_amount: tax,
-      total_amount: total,
-      stripe_session_id: session.id,
-    })
-    .select()
-    .single();
-
-  if (orderError) {
-    console.error('Failed to create order:', orderError);
-    throw orderError;
-  }
-
-  // Create order items and update inventory
-  for (const item of items) {
+  // Helper to get menu item price from database
+  const getMenuItemPrice = async (menuItemId: string): Promise<number> => {
     const { data: menuItem } = await supabaseAdmin
       .from('menu_items')
       .select('base_price')
-      .eq('id', item.menu_item_id)
+      .eq('id', menuItemId)
       .single();
+    return menuItem?.base_price || 0;
+  };
 
-    await supabaseAdmin.from('order_items').insert({
-      order_id: order.id,
-      menu_item_id: item.menu_item_id,
-      quantity: item.quantity,
-      unit_price: menuItem?.base_price || 0,
-      line_total: (menuItem?.base_price || 0) * item.quantity,
-    });
+  // Create order using the shared service (handles idempotency)
+  const order = await orderService.createOrderFromStripeSession(
+    session,
+    getMenuItemPrice
+  );
 
-    // Update inventory
+  // Update inventory for each item
+  const metadata = session.metadata || {};
+  const items = JSON.parse(metadata.items || '[]');
+
+  for (const item of items) {
     await supabaseAdmin.rpc('reserve_inventory', {
       p_menu_item_id: item.menu_item_id,
       p_pickup_date: metadata.pickup_date,

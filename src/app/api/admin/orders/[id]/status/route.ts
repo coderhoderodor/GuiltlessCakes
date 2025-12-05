@@ -5,31 +5,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { verifyAdmin, isAuthError } from '@/lib/auth';
 import { createOrderService } from '@/lib/services';
 import { orderStatusSchema } from '@/lib/validation';
 import type { OrderStatus } from '@/types';
-
-async function verifyAdmin() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { error: 'Unauthorized', status: 401 };
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.is_admin) {
-    return { error: 'Forbidden', status: 403 };
-  }
-
-  return { user, supabase };
-}
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -39,7 +18,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params;
     const auth = await verifyAdmin();
-    if ('error' in auth) {
+    if (isAuthError(auth)) {
       return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 

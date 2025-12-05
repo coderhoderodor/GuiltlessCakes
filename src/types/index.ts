@@ -182,6 +182,16 @@ export interface ApiResponse<T> {
   error: string | null;
 }
 
+// Order item with menu translations (used in order confirmation)
+export interface OrderItemWithTranslations {
+  quantity: number;
+  unit_price: number;
+  line_total: number;
+  menu_item: {
+    translations: Array<{ name: string; language: Language }>;
+  } | null;
+}
+
 // Menu with schedule and inventory for display
 export interface MenuItemWithAvailability extends MenuItem {
   inventory: Inventory | null;

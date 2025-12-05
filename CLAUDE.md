@@ -46,6 +46,24 @@ This is a **luxury bakery website** with a Shopify-store aesthetic:
 | Card padding | `p-10` to `p-16` |
 | Button text | `text-[10px]` to `text-[12px]` |
 
+## Git Commit Policy
+
+**Commit regularly to preserve progress:**
+
+1. **After major changes** - Commit immediately after completing a feature, fix, or significant refactor
+2. **Every 15-20 minutes** - During longer sessions, commit work-in-progress to avoid losing changes
+3. **Before risky operations** - Always commit before attempting experimental changes
+
+**Commit message format:**
+- Use conventional commits: `feat:`, `fix:`, `refactor:`, `style:`, `docs:`, `chore:`
+- Keep the first line under 72 characters
+- Add details in the body if needed
+
+**Never commit:**
+- `.env.local` or files containing secrets
+- `node_modules/`
+- Large binary files (use Git LFS if needed)
+
 ## Common Issues
 
 ### Changes not appearing

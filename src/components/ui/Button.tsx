@@ -39,9 +39,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizes = {
-      sm: 'px-8 py-4 text-[10px]',
-      md: 'px-10 py-5 text-[11px]',
-      lg: 'px-12 py-6 text-[12px]',
+      sm: 'px-4 py-2 text-[10px]',
+      md: 'px-6 py-3 text-[10px]',
+      lg: 'px-8 py-4 text-[11px]',
     };
 
     return (

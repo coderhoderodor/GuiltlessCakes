@@ -39,15 +39,15 @@
   --card: #ffffff;
   --card-hover: var(--pink-50);
 
-  /* Spacing Scale */
-  --space-xs: 0.5rem;    /* 8px */
-  --space-sm: 0.75rem;   /* 12px */
-  --space-md: 1rem;      /* 16px */
-  --space-lg: 1.5rem;    /* 24px */
-  --space-xl: 2rem;      /* 32px */
-  --space-2xl: 2.5rem;   /* 40px */
-  --space-3xl: 3rem;     /* 48px */
-  --space-4xl: 4rem;     /* 64px */
+  /* Spacing Scale - Compact */
+  --space-xs: 0.375rem;  /* 6px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 0.75rem;   /* 12px */
+  --space-lg: 1rem;      /* 16px */
+  --space-xl: 1.5rem;    /* 24px */
+  --space-2xl: 2rem;     /* 32px */
+  --space-3xl: 2.5rem;   /* 40px */
+  --space-4xl: 3rem;     /* 48px */
 }
 
 @theme inline {
@@ -94,8 +94,6 @@
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html {
@@ -106,9 +104,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 0.8125rem;  /* 13px - luxury feel */
-  line-height: 1.7;
-  letter-spacing: 0.02em;
+  font-size: 0.75rem;  /* 12px - compact */
+  line-height: 1.6;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -202,13 +200,28 @@ select {
 }
 
 @keyframes slideUp {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
-  to {
+  70% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes heroReveal {
+  0% {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -224,15 +237,61 @@ select {
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.9s ease-out;
 }
 
 .animate-slideUp {
-  animation: slideUp 0.6s ease-out;
+  animation: slideUp 0.9s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-heroReveal {
+  animation: heroReveal 1.4s ease-out forwards;
+  opacity: 0;
 }
 
 .animate-slideIn {
   animation: slideIn 0.5s ease-out;
+}
+
+@keyframes flowerPop {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(20px);
+  }
+  50% {
+    transform: scale(1.2) translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-flowerPop {
+  animation: flowerPop 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes flowerBloom {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-flowerBloom {
+  animation: flowerBloom 0.8s ease-out forwards;
+  opacity: 0;
+  transform-origin: center center;
 }
 
 /* Prose styles for content */
@@ -248,8 +307,8 @@ select {
   font-family: var(--font-serif);
   font-weight: 600;
   line-height: 1.3;
-  margin-top: 2em;
-  margin-bottom: 0.8em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
 }
 
 .prose h1 {
@@ -257,7 +316,7 @@ select {
 }
 
 .prose p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .prose p + p {
@@ -274,38 +333,10 @@ select {
   color: var(--primary-hover);
 }
 
-/* Typography Overrides */
+/* Typography Overrides - font only, no margins */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   letter-spacing: -0.02em;
   line-height: 1.2;
-  margin-bottom: 1.5rem;
 }
 
-/* Global paragraph spacing */
-p {
-  margin-bottom: 1.5rem;
-  line-height: 1.8;
-}
-
-p:last-child {
-  margin-bottom: 0;
-}
-
-/* Spacious text blocks */
-.text-lg, .text-xl, .text-2xl {
-  line-height: 1.8;
-}
-
-/* Description text spacing */
-p + p {
-  margin-top: 1.25rem;
-}
-
-.font-sans {
-  font-family: var(--font-sans);
-}
-
-.font-serif {
-  font-family: var(--font-serif);
-}

@@ -28,7 +28,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-100">
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-100 animate-fadeIn">
       <div className="container">
         <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo */}

@@ -1,7 +1,8 @@
 import Stripe from 'stripe';
+import { env } from '@/lib/env';
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-04-30.basil',
+export const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
+  apiVersion: '2025-02-24.acacia',
   typescript: true,
 });
 
@@ -82,6 +83,6 @@ export async function constructWebhookEvent(
   return stripe.webhooks.constructEvent(
     payload,
     signature,
-    process.env.STRIPE_WEBHOOK_SECRET!
+    env.STRIPE_WEBHOOK_SECRET
   );
 }

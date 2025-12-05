@@ -1,9 +1,23 @@
 import { Resend } from 'resend';
+import { env, config } from '@/lib/env';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
 
-const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@guiltlesscakes.com';
-const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME || 'Guiltless Cakes';
+const fromEmail = config.resendFromEmail;
+const businessName = config.businessName;
+
+/**
+ * Escape HTML special characters to prevent injection.
+ * Use this for any user-provided content in email templates.
+ */
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 interface EmailOptions {
   to: string;
@@ -49,7 +63,7 @@ export async function sendOrderConfirmation({
     .map(
       (item) =>
         `<tr>
-          <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.name}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(item.name)}</td>
           <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
           <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">$${item.price.toFixed(2)}</td>
         </tr>`
@@ -256,7 +270,7 @@ export async function sendAdminNotification({
   subject: string;
   content: string;
 }) {
-  const adminEmail = process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'hello@guiltlesscakes.com';
+  const adminEmail = config.businessEmail;
 
   const html = `
     <!DOCTYPE html>

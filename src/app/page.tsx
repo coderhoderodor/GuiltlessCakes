@@ -6,31 +6,55 @@ export default function HomePage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative bg-[#fff0f5] pt-32 pb-40 lg:pt-48 lg:pb-56 overflow-hidden">
-        {/* Abstract Background Shapes */}
-        <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[800px] h-[800px] bg-pink-200/30 rounded-full blur-3xl opacity-60 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-pink-300/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
+      <section className="relative pt-20 pb-24 lg:pt-24 lg:pb-28 overflow-hidden bg-pink-50">
+        {/* Animated Flowers - Grouped and Rotated */}
+        <div className="absolute right-[5%] top-[5%] w-[500px] h-[400px]" style={{ transform: 'rotate(-20deg)' }}>
+          <svg className="absolute right-[55%] top-[40%] w-96 h-96 z-20 animate-flowerBloom" style={{ animationDelay: '0.3s', transform: 'rotate(20deg)' }} viewBox="0 0 100 100">
+            <circle cx="50" cy="30" r="15" fill="#fda4b4" />
+            <circle cx="30" cy="50" r="15" fill="#fda4b4" />
+            <circle cx="70" cy="50" r="15" fill="#fda4b4" />
+            <circle cx="40" cy="70" r="15" fill="#fda4b4" />
+            <circle cx="60" cy="70" r="15" fill="#fda4b4" />
+            <circle cx="50" cy="50" r="12" fill="#e11d53" />
+          </svg>
+          <svg className="absolute right-[25%] top-[20%] w-80 h-80 animate-flowerBloom" style={{ animationDelay: '0.5s' }} viewBox="0 0 100 100">
+            <circle cx="50" cy="30" r="15" fill="#fecdd6" />
+            <circle cx="30" cy="50" r="15" fill="#fecdd6" />
+            <circle cx="70" cy="50" r="15" fill="#fecdd6" />
+            <circle cx="40" cy="70" r="15" fill="#fecdd6" />
+            <circle cx="60" cy="70" r="15" fill="#fecdd6" />
+            <circle cx="50" cy="50" r="12" fill="#f472b6" />
+          </svg>
+          <svg className="absolute right-[0%] top-[35%] w-48 h-48 animate-flowerBloom" style={{ animationDelay: '0.7s' }} viewBox="0 0 100 100">
+            <circle cx="50" cy="30" r="15" fill="#fbcfe8" />
+            <circle cx="30" cy="50" r="15" fill="#fbcfe8" />
+            <circle cx="70" cy="50" r="15" fill="#fbcfe8" />
+            <circle cx="40" cy="70" r="15" fill="#fbcfe8" />
+            <circle cx="60" cy="70" r="15" fill="#fbcfe8" />
+            <circle cx="50" cy="50" r="12" fill="#ec4899" />
+          </svg>
+        </div>
 
+        {/* Hero Image Overlay */}
+        <img
+          src="/HeroFran.png"
+          alt=""
+          className="absolute right-0 -top-16 w-[85%] h-auto object-contain z-10 animate-heroReveal"
+          style={{ animationDelay: '0.4s' }}
+        />
         <div className="container relative z-10">
-          <div className="grid lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-7 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/60 backdrop-blur-sm border border-pink-100 text-pink-700 rounded-full text-[10px] font-medium mb-8 animate-fadeIn uppercase tracking-wider">
-                <Sparkles className="w-4 h-4" />
-                <span>Boutique Home Bakery</span>
-              </div>
-
-              <h1 className="text-5xl lg:text-7xl font-bold text-neutral-900 leading-[1.1] mb-10 tracking-tight animate-slideUp">
-                Sweet Moments, <br />
-                <span className="text-pink-600 italic font-serif">Baked Fresh</span>
+          <div className="flex flex-col items-start text-left max-w-xl">
+              <h1 className="text-6xl lg:text-7xl font-bold text-neutral-900 leading-[1.1] mb-8 tracking-tight animate-slideUp" style={{ animationDelay: '0.1s' }}>
+                Baked with <span className="text-pink-600 italic font-serif">Love</span>
               </h1>
 
-              <p className="text-xl text-neutral-600 mb-14 max-w-2xl mx-auto lg:mx-0 leading-loose font-light animate-slideUp" style={{ animationDelay: '0.1s' }}>
+              <p className="text-xl text-neutral-600 mb-10 leading-relaxed font-light animate-slideUp" style={{ animationDelay: '0.3s' }}>
                 Welcome to Guiltless Cakes, a boutique home bakery in Northeast
                 Philadelphia. We specialize in delicious cupcakes, slices, and
                 stunning custom celebration cakes for your special moments.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start animate-slideUp" style={{ animationDelay: '0.2s' }}>
+              <div className="flex flex-col gap-4 items-start animate-slideUp" style={{ animationDelay: '0.5s' }}>
                 <Link href="/menu">
                   <Button className="shadow-pink-200/50 shadow-lg hover:shadow-pink-300/50 text-[11px] !px-8 !py-4 !rounded-full">
                     View This Week&apos;s Menu
@@ -43,27 +67,12 @@ export default function HomePage() {
                   </Button>
                 </Link>
               </div>
-            </div>
-
-            <div className="lg:col-span-5 relative animate-fadeIn" style={{ animationDelay: '0.3s' }}>
-              <div className="relative z-10 aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl shadow-pink-100 rotate-2 hover:rotate-0 transition-transform duration-500">
-                <div className="absolute inset-0 bg-gradient-to-tr from-pink-100 to-white flex items-center justify-center">
-                  <Sparkles className="w-32 h-32 text-pink-200" />
-                </div>
-                {/* Placeholder for actual image */}
-                {/* <Image src="/hero-cake.jpg" alt="Delicious Cake" fill className="object-cover" /> */}
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -top-12 -right-12 w-40 h-40 bg-pink-100 rounded-full opacity-50 blur-2xl -z-10" />
-              <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-pink-200 rounded-full opacity-40 blur-2xl -z-10" />
-            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-48 lg:py-64 bg-white relative">
+      <section className="py-12 lg:py-16 bg-white relative">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-16 lg:gap-20">
             <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
@@ -109,10 +118,10 @@ export default function HomePage() {
       </section>
 
       {/* This Week's Menu Preview */}
-      <section className="py-48 lg:py-64 bg-neutral-50/50">
+      <section className="py-16 lg:py-20 bg-neutral-50/50">
         <div className="container">
-          <div className="text-center mb-28">
-            <span className="text-pink-600 font-medium tracking-wider uppercase text-[10px] mb-6 block">Fresh From The Oven</span>
+          <div className="text-center mb-12">
+            <span className="text-pink-600 font-medium tracking-wider uppercase text-[10px] mb-4 block">Fresh From The Oven</span>
             <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-8 font-serif">
               This Week&apos;s Menu
             </h2>
@@ -123,7 +132,7 @@ export default function HomePage() {
           </div>
 
           {/* Menu Preview Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-14 lg:gap-16 mb-24">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mb-12">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
@@ -161,7 +170,7 @@ export default function HomePage() {
       </section>
 
       {/* Custom Cakes CTA */}
-      <section className="py-48 lg:py-64">
+      <section className="py-16 lg:py-20">
         <div className="container">
           <div className="relative rounded-[3rem] overflow-hidden bg-pink-900 text-white p-20 lg:p-32 text-center">
             {/* Background Pattern */}
@@ -196,7 +205,7 @@ export default function HomePage() {
       </section>
 
       {/* About Preview */}
-      <section className="py-48 lg:py-64 bg-white">
+      <section className="py-16 lg:py-20 bg-white">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-20 lg:gap-28 items-center">
             <div className="order-2 lg:order-1">
@@ -241,10 +250,10 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-48 lg:py-64 bg-neutral-50/50">
+      <section className="py-16 lg:py-20 bg-neutral-50/50">
         <div className="container">
-          <div className="text-center mb-28">
-            <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-8 font-serif">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-4 font-serif">
               How It Works
             </h2>
             <p className="text-neutral-600 max-w-2xl mx-auto text-xl font-light leading-loose">

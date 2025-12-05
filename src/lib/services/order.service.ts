@@ -9,9 +9,21 @@ import type {
   IOrderRepository,
   CreateOrderDTO,
   UpdateOrderDTO,
+  CreateOrderItemDTO,
 } from '@/lib/repositories';
 import { validate, createOrderSchema, updateOrderSchema } from '@/lib/validation';
 import type { Order, OrderStatus } from '@/types';
+import type Stripe from 'stripe';
+
+/**
+ * Metadata stored in Stripe checkout session for order creation.
+ */
+export interface StripeOrderMetadata {
+  user_id: string;
+  pickup_date: string;
+  pickup_window: string; // This is the window ID
+  items: string; // JSON stringified array of { menu_item_id, quantity }
+}
 
 export interface IOrderService {
   // CRUD operations
@@ -31,6 +43,15 @@ export interface IOrderService {
   getUserUpcomingOrders(userId: string): Promise<Order[]>;
   getUserPastOrders(userId: string): Promise<Order[]>;
   getOrderStatistics(pickupDate: string): Promise<OrderStatistics>;
+
+  /**
+   * Create an order from a completed Stripe checkout session.
+   * Handles idempotency, item price lookup, and atomic creation.
+   */
+  createOrderFromStripeSession(
+    session: Stripe.Checkout.Session,
+    getMenuItemPrice: (menuItemId: string) => Promise<number>
+  ): Promise<Order>;
 }
 
 export interface OrderStatistics {
@@ -186,5 +207,83 @@ export class OrderService implements IOrderService {
     };
 
     return validTransitions[from]?.includes(to) ?? false;
+  }
+
+  /**
+   * Create an order from a completed Stripe checkout session.
+   *
+   * This method:
+   * 1. Checks for existing order (idempotency)
+   * 2. Extracts metadata from the Stripe session
+   * 3. Calculates prices for each item
+   * 4. Creates the order and items atomically using stored procedure
+   */
+  async createOrderFromStripeSession(
+    session: Stripe.Checkout.Session,
+    getMenuItemPrice: (menuItemId: string) => Promise<number>
+  ): Promise<Order> {
+    // Idempotency check - return existing order if already created
+    const existing = await this.orderRepository.findByStripeSession(session.id);
+    if (existing) {
+      return existing;
+    }
+
+    const metadata = session.metadata as unknown as StripeOrderMetadata;
+    if (!metadata?.user_id || !metadata?.pickup_date || !metadata?.pickup_window) {
+      throw new Error('Invalid session metadata: missing required fields');
+    }
+
+    // Parse items from metadata
+    const items: Array<{ menu_item_id: string; quantity: number }> = JSON.parse(
+      metadata.items || '[]'
+    );
+
+    if (items.length === 0) {
+      throw new Error('No items found in session metadata');
+    }
+
+    // Calculate amounts from Stripe session
+    const total = (session.amount_total || 0) / 100;
+    const tax = (session.total_details?.amount_tax || 0) / 100;
+    const subtotalWithFee = (session.amount_subtotal || 0) / 100;
+
+    // Service fee is 5% of subtotal
+    const serviceFee = subtotalWithFee * 0.05;
+    const subtotal = subtotalWithFee - serviceFee;
+
+    // Build order items with prices
+    const orderItems: CreateOrderItemDTO[] = [];
+    for (const item of items) {
+      const price = await getMenuItemPrice(item.menu_item_id);
+      orderItems.push({
+        menu_item_id: item.menu_item_id,
+        quantity: item.quantity,
+        unit_price: price,
+        line_total: price * item.quantity,
+      });
+    }
+
+    // Create order atomically using stored procedure
+    const orderId = await this.orderRepository.createWithItemsAtomic(
+      {
+        user_id: metadata.user_id,
+        pickup_date: metadata.pickup_date,
+        pickup_window_id: metadata.pickup_window,
+        subtotal_amount: subtotal,
+        service_fee_amount: serviceFee,
+        tax_amount: tax,
+        total_amount: total,
+        stripe_session_id: session.id,
+      },
+      orderItems
+    );
+
+    // Fetch and return the complete order
+    const order = await this.orderRepository.findById(orderId);
+    if (!order) {
+      throw new Error('Order not found after creation');
+    }
+
+    return order;
   }
 }

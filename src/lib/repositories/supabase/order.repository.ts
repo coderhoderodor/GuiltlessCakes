@@ -218,4 +218,33 @@ export class OrderRepository implements IOrderRepository {
   async updateStatus(id: string, status: OrderStatus): Promise<Order> {
     return this.update(id, { status });
   }
+
+  /**
+   * Create an order with items atomically using a stored procedure.
+   * This ensures the order and all items are created in a single transaction.
+   *
+   * @param orderData - Order data (without items)
+   * @param items - Array of order items
+   * @returns The order ID
+   */
+  async createWithItemsAtomic(
+    orderData: Omit<CreateOrderDTO, 'items'>,
+    items: Array<{
+      menu_item_id: string;
+      quantity: number;
+      unit_price: number;
+      line_total: number;
+    }>
+  ): Promise<string> {
+    const { data, error } = await this.supabase.rpc('create_order_with_items', {
+      p_order_data: orderData,
+      p_items: items,
+    });
+
+    if (error) {
+      throw new Error(`Failed to create order atomically: ${error.message}`);
+    }
+
+    return data as string;
+  }
 }
