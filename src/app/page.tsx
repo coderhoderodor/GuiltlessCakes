@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { ArrowRight, Clock, MapPin, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui';
 
 export default function HomePage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] pt-32 pb-12 lg:pt-40 lg:pb-16 overflow-hidden bg-pink-50">
+      <section className="relative min-h-[74vh] pt-12 pb-0 lg:pt-20 lg:pb-0 overflow-hidden bg-pink-50">
         {/* Animated Flowers - Grouped and Rotated */}
         <div className="absolute right-[5%] top-[5%] w-[500px] h-[400px]" style={{ transform: 'rotate(-20deg)' }}>
           <svg className="absolute right-[55%] top-[40%] w-96 h-96 z-20 animate-flowerBloom" style={{ animationDelay: '0.3s', transform: 'rotate(20deg)' }} viewBox="0 0 100 100">
@@ -67,52 +67,6 @@ export default function HomePage() {
                   </Button>
                 </Link>
               </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-12 lg:py-16 bg-white relative">
-        <div className="container">
-          <div className="grid md:grid-cols-3 gap-16 lg:gap-20">
-            <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
-              <div className="w-24 h-24 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-12 group-hover:scale-110 transition-transform duration-300">
-                <Sparkles className="w-12 h-12 text-pink-500" />
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-8 font-serif">
-                Fresh Weekly Menu
-              </h3>
-              <p className="text-neutral-600 leading-loose text-base font-light">
-                Our menu rotates weekly with fresh, seasonal flavors. Order by
-                Wednesday for Friday pickup.
-              </p>
-            </div>
-
-            <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
-              <div className="w-24 h-24 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-12 group-hover:scale-110 transition-transform duration-300">
-                <Clock className="w-12 h-12 text-pink-500" />
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-8 font-serif">
-                Friday Pickups
-              </h3>
-              <p className="text-neutral-600 leading-loose text-base font-light">
-                Convenient 2-hour pickup windows on Fridays between 10 AM and 6
-                PM. Choose the slot that works for you.
-              </p>
-            </div>
-
-            <div className="group text-center p-12 rounded-[2.5rem] hover:bg-neutral-50 transition-colors duration-300">
-              <div className="w-24 h-24 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-12 group-hover:scale-110 transition-transform duration-300">
-                <MapPin className="w-12 h-12 text-pink-500" />
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-8 font-serif">
-                Local & Personal
-              </h3>
-              <p className="text-neutral-600 leading-loose text-base font-light">
-                Located in Northeast Philadelphia, serving the greater
-                Philadelphia area with care and attention to detail.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -278,13 +232,13 @@ export default function HomePage() {
               },
               {
                 step: '3',
-                title: 'Choose Pickup',
-                description: 'Select your preferred 2-hour pickup window',
+                title: 'Choose Delivery',
+                description: 'Enter your address and select a delivery window',
               },
               {
                 step: '4',
                 title: 'Enjoy!',
-                description: 'Pick up your fresh treats on Friday',
+                description: 'We deliver fresh to your door Fri-Sat',
               },
             ].map((item, index) => (
               <div key={index} className="text-center group">

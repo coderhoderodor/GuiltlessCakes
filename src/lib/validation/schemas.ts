@@ -11,14 +11,14 @@ import { z } from 'zod';
 // Common Schemas
 // ============================================
 export const languageSchema = z.enum(['en', 'es', 'pt']);
-export const orderStatusSchema = z.enum(['paid', 'prepping', 'ready', 'picked_up', 'canceled']);
+export const orderStatusSchema = z.enum(['paid', 'prepping', 'ready', 'out_for_delivery', 'delivered', 'canceled']);
 export const inquiryStatusSchema = z.enum([
   'new',
   'in_review',
   'quoted',
   'accepted',
   'in_progress',
-  'ready_for_pickup',
+  'ready_for_delivery',
   'completed',
   'rejected',
   'closed',

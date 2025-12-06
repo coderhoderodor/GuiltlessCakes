@@ -2,9 +2,9 @@
 
 export type Language = 'en' | 'es' | 'pt';
 
-export type OrderStatus = 'paid' | 'prepping' | 'ready' | 'picked_up' | 'canceled';
+export type OrderStatus = 'paid' | 'prepping' | 'ready' | 'out_for_delivery' | 'delivered' | 'canceled';
 
-export type InquiryStatus = 'new' | 'in_review' | 'quoted' | 'accepted' | 'in_progress' | 'ready_for_pickup' | 'completed' | 'rejected' | 'closed';
+export type InquiryStatus = 'new' | 'in_review' | 'quoted' | 'accepted' | 'in_progress' | 'ready_for_delivery' | 'completed' | 'rejected' | 'closed';
 
 export type QuoteStatus = 'draft' | 'sent' | 'paid' | 'expired';
 
@@ -21,8 +21,21 @@ export interface Profile {
   phone: string;
   preferred_language: Language;
   is_admin: boolean;
+  delivery_address_line1: string | null;
+  delivery_address_line2: string | null;
+  delivery_city: string | null;
+  delivery_state: string | null;
+  delivery_zip: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface DeliveryAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 
 export interface MenuItem {
@@ -50,7 +63,7 @@ export interface MenuItemTranslation {
 export interface MenuSchedule {
   id: string;
   menu_item_id: string;
-  pickup_date: string;
+  delivery_date: string;
   is_active: boolean;
   created_at: string;
   menu_item?: MenuItem;
@@ -59,12 +72,12 @@ export interface MenuSchedule {
 export interface Inventory {
   id: string;
   menu_item_id: string;
-  pickup_date: string;
+  delivery_date: string;
   daily_cap: number;
   reserved_quantity: number;
 }
 
-export interface PickupWindow {
+export interface DeliveryWindow {
   id: string;
   label: string;
   start_time: string;
@@ -74,11 +87,20 @@ export interface PickupWindow {
   active: boolean;
 }
 
+// Alias for backwards compatibility during migration
+export type PickupWindow = DeliveryWindow;
+
 export interface Order {
   id: string;
   user_id: string;
-  pickup_date: string;
-  pickup_window_id: string;
+  delivery_date: string;
+  delivery_window_id: string;
+  delivery_address_line1: string | null;
+  delivery_address_line2: string | null;
+  delivery_city: string | null;
+  delivery_state: string | null;
+  delivery_zip: string | null;
+  delivery_fee: number;
   status: OrderStatus;
   subtotal_amount: number;
   service_fee_amount: number;
@@ -88,7 +110,7 @@ export interface Order {
   notes: string | null;
   created_at: string;
   updated_at: string;
-  pickup_window?: PickupWindow;
+  delivery_window?: DeliveryWindow;
   order_items?: OrderItem[];
   profile?: Profile;
 }
@@ -159,8 +181,9 @@ export interface CartItem {
 
 export interface Cart {
   items: CartItem[];
-  pickupDate: string | null;
-  pickupWindowId: string | null;
+  deliveryDate: string | null;
+  deliveryWindowId: string | null;
+  deliveryAddress: DeliveryAddress | null;
 }
 
 // Form types

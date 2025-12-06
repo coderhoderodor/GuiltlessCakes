@@ -75,10 +75,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/pickup"
+                  href="/delivery"
                   className="text-neutral-600 hover:text-pink-600 transition-colors text-sm"
                 >
-                  Pickup Info
+                  Delivery Info
                 </Link>
               </li>
             </ul>
@@ -115,16 +115,16 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Hours */}
+          {/* Delivery Info */}
           <div>
-            <h3 className="font-semibold text-neutral-800 mb-8">Pickup Hours</h3>
+            <h3 className="font-semibold text-neutral-800 mb-8">Delivery</h3>
             <p className="text-neutral-600 text-sm leading-loose">
-              <strong>Fridays Only</strong>
+              <strong>Friday &amp; Saturday</strong>
               <br />
               10:00 AM - 6:00 PM
             </p>
             <p className="mt-8 text-neutral-500 text-xs leading-loose">
-              Orders must be placed by Wednesday 11:59 PM for Friday pickup.
+              Free delivery on orders $50+. We deliver within 20 miles of NE Philadelphia.
             </p>
           </div>
         </div>

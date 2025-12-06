@@ -126,7 +126,7 @@ const DUMMY_MENU_ITEMS = [
 export const metadata: Metadata = {
   title: "This Week's Menu",
   description:
-    "Browse our weekly rotating menu of cupcakes, slices, and pre-made cakes. Order by Wednesday for Friday pickup.",
+    "Browse our weekly rotating menu of cupcakes, slices, and pre-made cakes. Order by Wednesday for Fri-Sat delivery.",
 };
 
 async function getMenuItems() {
@@ -204,8 +204,8 @@ export default async function MenuPage() {
               This Week&apos;s Menu
             </h1>
             <p className="text-base text-neutral-600 mb-6 leading-relaxed">
-              Fresh baked treats available for pickup on{' '}
-              <strong className="text-pink-600">{formatDate(nextFriday)}</strong>
+              Fresh baked treats available for delivery on{' '}
+              <strong className="text-pink-600">{formatDate(nextFriday)} &amp; Saturday</strong>
             </p>
 
             {orderingClosed ? (
@@ -214,7 +214,7 @@ export default async function MenuPage() {
               </div>
             ) : (
               <div className="inline-block bg-pink-100 text-pink-700 px-5 py-2.5 rounded-xl">
-                Order by <strong>Wednesday 11:59 PM</strong> for Friday pickup
+                Order by <strong>Wednesday 11:59 PM</strong> for Fri-Sat delivery
               </div>
             )}
           </div>
@@ -277,10 +277,10 @@ export default async function MenuPage() {
                   2
                 </div>
                 <h3 className="font-semibold text-neutral-800 mb-6 text-lg">
-                  Choose Pickup
+                  Choose Delivery
                 </h3>
                 <p className="text-neutral-600 leading-loose">
-                  Select your 2-hour pickup window at checkout
+                  Enter your address and select a delivery window
                 </p>
               </div>
               <div className="p-10">
@@ -288,10 +288,10 @@ export default async function MenuPage() {
                   3
                 </div>
                 <h3 className="font-semibold text-neutral-800 mb-6 text-lg">
-                  Pick Up Friday
+                  We Deliver
                 </h3>
                 <p className="text-neutral-600 leading-loose">
-                  Collect your fresh treats during your window
+                  Fresh treats delivered to your door Fri-Sat
                 </p>
               </div>
             </div>
