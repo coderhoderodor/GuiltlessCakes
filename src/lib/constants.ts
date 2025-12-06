@@ -1,6 +1,6 @@
-// Guiltless Cakes Constants
+// Guiltless Sweets Constants (business is Guiltless Cakes)
 
-export const SITE_NAME = 'Guiltless Cakes';
+export const SITE_NAME = 'Guiltless Sweets';
 export const SITE_DESCRIPTION = 'A boutique home bakery in Northeast Philadelphia specializing in cupcakes, slices, and custom celebration cakes.';
 
 // Business Configuration
@@ -89,19 +89,24 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'pt', label: 'Português', flag: '🇧🇷' },
 ] as const;
 
-// Brand Colors
+// Guiltless Sweets Brand Colors
 export const BRAND_COLORS = {
+  white: '#FFFFFF',
+  blush: '#FFE8E8',      // Light Pink/Blush
+  rose: '#EBB4B2',       // Dusty Rose - Primary
+  blue: '#D3F3FF',       // Light Blue - Accent
+  roseHover: '#C9A09E',  // Darker rose for hover
   primary: {
-    50: '#fdf2f8',
-    100: '#fce7f3',
-    200: '#fbcfe8',
-    300: '#f9a8d4',
-    400: '#f472b6',
-    500: '#ec4899',
-    600: '#db2777',
-    700: '#be185d',
-    800: '#9d174d',
-    900: '#831843',
+    50: '#FFF5F5',
+    100: '#FFE8E8',
+    200: '#F5D5D3',
+    300: '#EBB4B2',
+    400: '#E09D9A',
+    500: '#D58583',
+    600: '#EBB4B2',
+    700: '#C9A09E',
+    800: '#A8807E',
+    900: '#876562',
   },
   neutral: {
     50: '#fafafa',
@@ -129,8 +134,8 @@ export const NAV_LINKS = [
 
 // Social Media Links (placeholder)
 export const SOCIAL_LINKS = {
-  instagram: 'https://instagram.com/guiltlesscakes',
-  facebook: 'https://facebook.com/guiltlesscakes',
+  instagram: 'https://instagram.com/guiltlesssweets',
+  facebook: 'https://facebook.com/guiltlesssweets',
 };
 
 // Accepted Image Types

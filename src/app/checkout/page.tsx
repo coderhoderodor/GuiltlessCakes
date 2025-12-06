@@ -34,17 +34,24 @@ export default function CheckoutPage() {
   const estimatedTax = (subtotal + serviceFee) * 0.08; // Estimate 8% tax
   const total = subtotal + serviceFee + estimatedTax;
 
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/auth/login?redirectTo=/checkout');
-    }
-  }, [loading, isAuthenticated, router]);
+  const [redirecting, setRedirecting] = useState(false);
 
+  // Handle redirects in a single effect to prevent loops
   useEffect(() => {
-    if (cart.items.length === 0 && !loading) {
-      router.push('/menu');
+    if (loading) return;
+
+    if (!isAuthenticated) {
+      setRedirecting(true);
+      router.replace('/auth/login?redirectTo=/checkout');
+      return;
     }
-  }, [cart.items.length, loading, router]);
+
+    if (cart.items.length === 0) {
+      setRedirecting(true);
+      router.replace('/menu');
+      return;
+    }
+  }, [loading, isAuthenticated, cart.items.length, router]);
 
   const handleCheckout = async () => {
     if (!selectedWindow) {
@@ -82,10 +89,43 @@ export default function CheckoutPage() {
     }
   };
 
+  // Show loading state
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600" />
+        <p className="text-neutral-500 text-sm">Loading...</p>
+      </div>
+    );
+  }
+
+  // Show redirecting state or fallback links
+  if (!isAuthenticated || cart.items.length === 0) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 py-12 px-4">
+        {redirecting ? (
+          <>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600" />
+            <p className="text-neutral-500 text-sm">Redirecting...</p>
+          </>
+        ) : (
+          <Card variant="elevated" className="w-full max-w-md text-center">
+            <CardContent>
+              <ShoppingBag className="w-16 h-16 text-pink-300 mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-neutral-800 mb-2">
+                {!isAuthenticated ? 'Sign in required' : 'Your cart is empty'}
+              </h2>
+              <p className="text-neutral-600 mb-6">
+                {!isAuthenticated
+                  ? 'Please sign in to continue with checkout.'
+                  : 'Add some items to your cart before checking out.'}
+              </p>
+              <Link href={!isAuthenticated ? '/auth/login?redirectTo=/checkout' : '/menu'}>
+                <Button>{!isAuthenticated ? 'Sign In' : 'Browse Menu'}</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
       </div>
     );
   }

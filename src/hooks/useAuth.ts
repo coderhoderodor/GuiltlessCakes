@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/types';
@@ -9,28 +9,78 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+
+  // Create client once per component instance
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+    let isMounted = true;
 
-      setUser(user);
+    // Helper to fetch profile with timeout
+    const fetchProfileWithTimeout = async (userId: string, timeoutMs = 5000) => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-      if (user) {
-        const { data: profile } = await supabase
+      try {
+        const { data } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', user.id)
-          .single();
+          .eq('id', userId)
+          .single()
+          .abortSignal(controller.signal);
 
-        setProfile(profile);
+        clearTimeout(timeoutId);
+        return data;
+      } catch (err) {
+        clearTimeout(timeoutId);
+        console.warn('[useAuth] Profile fetch failed or timed out:', err);
+        return null;
       }
+    };
 
-      setLoading(false);
+    // Safety timeout - always set loading false after 8 seconds max
+    const safetyTimeout = setTimeout(() => {
+      if (isMounted && loading) {
+        console.warn('[useAuth] Safety timeout reached, forcing loading=false');
+        setLoading(false);
+      }
+    }, 8000);
+
+    // Get initial session - use getSession() which is faster (reads from storage first)
+    const getInitialSession = async () => {
+      console.log('[useAuth] Getting initial session...');
+      try {
+        // getSession() is faster than getUser() - it reads from local storage first
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        console.log('[useAuth] Session result:', { userId: session?.user?.id, error: error?.message });
+
+        if (!isMounted) return;
+
+        if (error) {
+          console.log('[useAuth] Setting loading false (error)');
+          setLoading(false);
+          return;
+        }
+
+        const user = session?.user ?? null;
+        setUser(user);
+
+        if (user) {
+          const profile = await fetchProfileWithTimeout(user.id);
+          if (isMounted) {
+            setProfile(profile);
+          }
+        }
+
+        console.log('[useAuth] Setting loading false (success)');
+        setLoading(false);
+      } catch (error) {
+        console.error('[useAuth] Caught error:', error);
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     };
 
     getInitialSession();
@@ -39,33 +89,44 @@ export function useAuth() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return;
+
+      console.log('[useAuth] Auth state changed:', event, { userId: session?.user?.id });
+
       setUser(session?.user ?? null);
+      // Set loading false IMMEDIATELY - don't wait for profile
+      setLoading(false);
 
       if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-
-        setProfile(profile);
+        // Fetch profile in background - don't block
+        fetchProfileWithTimeout(session.user.id).then(profile => {
+          if (isMounted) {
+            setProfile(profile);
+          }
+        });
       } else {
         setProfile(null);
       }
-
-      setLoading(false);
     });
 
     return () => {
+      isMounted = false;
+      clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };
   }, [supabase]);
 
   const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Sign in timed out. Please try again.')), 15000);
+    });
+
+    const signInPromise = supabase.auth.signInWithPassword({
       email,
       password,
     });
+
+    const { data, error } = await Promise.race([signInPromise, timeoutPromise]);
 
     if (error) {
       throw error;
@@ -79,13 +140,19 @@ export function useAuth() {
     password: string,
     metadata: { first_name: string; last_name: string; phone: string }
   ) => {
-    const { data, error } = await supabase.auth.signUp({
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Sign up timed out. Please try again.')), 15000);
+    });
+
+    const signUpPromise = supabase.auth.signUp({
       email,
       password,
       options: {
         data: metadata,
       },
     });
+
+    const { data, error } = await Promise.race([signUpPromise, timeoutPromise]);
 
     if (error) {
       throw error;
@@ -95,12 +162,18 @@ export function useAuth() {
   };
 
   const signInWithMagicLink = async (email: string) => {
-    const { data, error } = await supabase.auth.signInWithOtp({
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Request timed out. Please try again.')), 15000);
+    });
+
+    const otpPromise = supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
+
+    const { data, error } = await Promise.race([otpPromise, timeoutPromise]);
 
     if (error) {
       throw error;
@@ -110,17 +183,29 @@ export function useAuth() {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
+    const timeoutPromise = new Promise<{ error: Error | null }>((resolve) => {
+      setTimeout(() => resolve({ error: new Error('Sign out timed out') }), 10000);
+    });
+
+    const signOutPromise = supabase.auth.signOut();
+    const { error } = await Promise.race([signOutPromise, timeoutPromise]);
 
     if (error) {
-      throw error;
+      console.error('Sign out error:', error.message);
+      // Don't throw - always proceed even if server call failed
     }
   };
 
   const resetPassword = async (email: string) => {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Request timed out. Please try again.')), 15000);
     });
+
+    const resetPromise = supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset-password`,
+    });
+
+    const { data, error } = await Promise.race([resetPromise, timeoutPromise]);
 
     if (error) {
       throw error;
@@ -130,9 +215,16 @@ export function useAuth() {
   };
 
   const updatePassword = async (newPassword: string) => {
-    const { data, error } = await supabase.auth.updateUser({
+    // Add timeout to prevent hanging (30 seconds - Supabase can be slow)
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Password update timed out. Please try again.')), 30000);
+    });
+
+    const updatePromise = supabase.auth.updateUser({
       password: newPassword,
     });
+
+    const { data, error } = await Promise.race([updatePromise, timeoutPromise]) as Awaited<typeof updatePromise>;
 
     if (error) {
       throw error;

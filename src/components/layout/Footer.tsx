@@ -10,14 +10,14 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-neutral-50 border-t border-neutral-100">
-      <div className="container py-32 lg:py-44">
+    <footer className="bg-neutral-50 border-t border-neutral-100 mt-40 lg:mt-64">
+      <div className="container py-40 lg:py-56">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-24">
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block">
-              <span className="text-xl font-bold text-pink-600">
-                Guiltless Cakes
+              <span className="text-2xl text-pink-600" style={{ fontFamily: 'var(--font-script)' }}>
+                Guiltless Sweets
               </span>
             </Link>
             <p className="mt-8 text-neutral-600 text-sm leading-loose">
@@ -90,11 +90,11 @@ export function Footer() {
             <ul className="space-y-5">
               <li>
                 <a
-                  href="mailto:hello@guiltlesscakes.com"
+                  href="mailto:hello@guiltlesssweets.com"
                   className="flex items-center gap-2 text-neutral-600 hover:text-pink-600 transition-colors text-sm"
                 >
                   <Mail className="w-4 h-4" />
-                  hello@guiltlesscakes.com
+                  hello@guiltlesssweets.com
                 </a>
               </li>
               <li>
@@ -133,7 +133,7 @@ export function Footer() {
         <div className="mt-20 pt-10 border-t border-neutral-200">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <p className="text-neutral-500 text-sm">
-              &copy; {currentYear} Guiltless Cakes. {t(translations.footer.rights)}.
+              &copy; {currentYear} Guiltless Sweets. {t(translations.footer.rights)}.
             </p>
             <div className="flex gap-6 text-sm">
               <Link

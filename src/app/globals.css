@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand Colors - Gentle pink and white palette */
-  /* Brand Colors - Refined Palette */
-  --pink-50: #fff0f5;
-  --pink-100: #ffe4e9;
-  --pink-200: #fecdd6;
-  --pink-300: #fda4b4;
-  --pink-400: #fb718f;
-  --pink-500: #f43f68;
-  --pink-600: #e11d53;
-  --pink-700: #be1242;
-  --pink-800: #9f123a;
-  --pink-900: #881337;
+  /* Guiltless Sweets Brand Colors */
+  --brand-white: #FFFFFF;
+  --brand-blush: #FFE8E8;     /* Light Pink/Blush */
+  --brand-rose: #EBB4B2;      /* Dusty Rose - Primary */
+  --brand-blue: #D3F3FF;      /* Light Blue - Accent */
+
+  /* Rose/Pink Scale (derived from brand-rose) */
+  --pink-50: #FFF5F5;
+  --pink-100: #FFE8E8;        /* brand-blush */
+  --pink-200: #F5D5D3;
+  --pink-300: #EBB4B2;        /* brand-rose */
+  --pink-400: #E09D9A;
+  --pink-500: #D58583;
+  --pink-600: #EBB4B2;        /* PRIMARY - brand-rose */
+  --pink-700: #C9A09E;        /* Darker rose for hover */
+  --pink-800: #A8807E;
+  --pink-900: #876562;
 
   /* Warm Neutrals */
   --neutral-50: #faf9f8;
@@ -27,17 +32,17 @@
   --neutral-900: #1c1917;
 
   /* Theme Variables */
-  --background: #ffffff;
+  --background: var(--brand-white);
   --foreground: var(--neutral-800);
-  --primary: var(--pink-600);
-  --primary-hover: var(--pink-700);
-  --primary-light: var(--pink-100);
+  --primary: var(--brand-rose);
+  --primary-hover: #C9A09E;
+  --primary-light: var(--brand-blush);
   --secondary: var(--neutral-100);
-  --accent: var(--pink-400);
+  --accent: var(--brand-blue);
   --muted: var(--neutral-500);
   --border: var(--neutral-200);
-  --card: #ffffff;
-  --card-hover: var(--pink-50);
+  --card: var(--brand-white);
+  --card-hover: var(--brand-blush);
 
   /* Spacing Scale - Compact */
   --space-xs: 0.375rem;  /* 6px */
@@ -87,9 +92,12 @@
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
 
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --font-serif: var(--font-playfair), serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-sans: var(--font-josefin-sans), system-ui, -apple-system, sans-serif;
+  --font-script: var(--font-meow-script), cursive;
+  --font-mono: ui-monospace, monospace;
+
+  /* Brand accent color for Tailwind */
+  --color-accent: var(--brand-blue);
 }
 
 * {
@@ -300,11 +308,19 @@ select {
 }
 
 .prose h1,
-.prose h2,
+.prose h2 {
+  color: var(--neutral-800);
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
 .prose h3,
 .prose h4 {
   color: var(--neutral-800);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   line-height: 1.3;
   margin-top: 1.5em;
@@ -333,10 +349,33 @@ select {
   color: var(--primary-hover);
 }
 
-/* Typography Overrides - font only, no margins */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+/* Typography Overrides - Guiltless Sweets brand fonts */
+h1, h2 {
+  font-family: var(--font-script);
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+/* Page transition animation */
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-pageEnter {
+  animation: pageEnter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 

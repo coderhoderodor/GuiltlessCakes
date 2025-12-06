@@ -207,23 +207,22 @@ export default function CustomCakesPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-pink-50 to-white py-32 lg:py-48">
+      <section className="bg-gradient-to-b from-pink-50 to-white py-10 lg:py-14">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-800 mb-10">
+            <h1 className="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
               Custom Cake Inquiry
             </h1>
-            <p className="text-lg text-neutral-600 leading-loose">
+            <p className="text-base text-neutral-600 leading-relaxed">
               Tell us about your special celebration and we&apos;ll create the
-              perfect custom cake. Fill out the form below and we&apos;ll get
-              back to you with a personalized quote.
+              perfect custom cake.
             </p>
           </div>
         </div>
       </section>
 
       {/* Form Section */}
-      <section className="py-32 lg:py-48">
+      <section className="py-12 lg:py-16">
         <div className="container">
           <div className="max-w-2xl mx-auto">
             {/* Login Notice */}

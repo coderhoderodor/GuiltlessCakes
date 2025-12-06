@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
@@ -11,9 +11,16 @@ import { Button } from '@/components/ui';
 import { formatCurrency } from '@/lib/utils';
 
 export function CartDrawer() {
+  const router = useRouter();
   const { cart, closeCart, removeItem, updateQuantity, subtotal } = useCart();
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
+
+  const handleCheckout = () => {
+    const destination = isAuthenticated ? '/checkout' : '/auth/login?redirectTo=/checkout';
+    closeCart();
+    router.push(destination);
+  };
 
   if (!cart.isOpen) return null;
 
@@ -145,22 +152,13 @@ export function CartDrawer() {
             </p>
 
             {/* Checkout Button */}
-            {isAuthenticated ? (
-              <Link href="/checkout" onClick={closeCart}>
-                <Button fullWidth size="lg">
-                  {t(translations.cart.checkout)}
-                </Button>
-              </Link>
-            ) : (
-              <Link
-                href="/auth/login?redirectTo=/checkout"
-                onClick={closeCart}
-              >
-                <Button fullWidth size="lg">
-                  Sign in to Checkout
-                </Button>
-              </Link>
-            )}
+            <Button
+              fullWidth
+              size="lg"
+              onClick={handleCheckout}
+            >
+              {isAuthenticated ? t(translations.cart.checkout) : 'Sign in to Checkout'}
+            </Button>
 
             {/* Continue Shopping */}
             <Button

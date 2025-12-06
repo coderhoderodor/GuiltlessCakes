@@ -41,11 +41,12 @@ BEGIN
     COALESCE(NEW.raw_user_meta_data->>'first_name', ''),
     COALESCE(NEW.raw_user_meta_data->>'last_name', ''),
     COALESCE(NEW.raw_user_meta_data->>'phone', ''),
-    COALESCE((NEW.raw_user_meta_data->>'preferred_language')::language, 'en')
+    COALESCE((NEW.raw_user_meta_data->>'preferred_language')::public.language, 'en')
   );
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = '';
 
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
@@ -58,7 +59,8 @@ BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = '';
 
 CREATE TRIGGER profiles_updated_at
   BEFORE UPDATE ON profiles
@@ -312,27 +314,31 @@ ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE weekly_menu_story ENABLE ROW LEVEL SECURITY;
 
--- PROFILES: Users can read/update own profile, admins can read all
+-- PROFILES: Users can read/update/insert own profile, admins can read all
+-- Note: Using (select auth.uid()) for better query performance at scale
 CREATE POLICY "Users can view own profile" ON profiles
-  FOR SELECT USING (auth.uid() = id);
+  FOR SELECT USING ((select auth.uid()) = id);
+
+CREATE POLICY "Users can insert own profile" ON profiles
+  FOR INSERT WITH CHECK ((select auth.uid()) = id);
 
 CREATE POLICY "Users can update own profile" ON profiles
-  FOR UPDATE USING (auth.uid() = id);
+  FOR UPDATE USING ((select auth.uid()) = id);
 
 CREATE POLICY "Admins can view all profiles" ON profiles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- MENU ITEMS: Public read, admin write
 CREATE POLICY "Anyone can view active menu items" ON menu_items
   FOR SELECT USING (active = TRUE OR EXISTS (
-    SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE
+    SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE
   ));
 
 CREATE POLICY "Admins can manage menu items" ON menu_items
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- MENU ITEM TRANSLATIONS: Public read, admin write
@@ -341,7 +347,7 @@ CREATE POLICY "Anyone can view translations" ON menu_item_translations
 
 CREATE POLICY "Admins can manage translations" ON menu_item_translations
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- MENU SCHEDULE: Public read, admin write
@@ -350,7 +356,7 @@ CREATE POLICY "Anyone can view menu schedule" ON menu_schedule
 
 CREATE POLICY "Admins can manage menu schedule" ON menu_schedule
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- INVENTORY: Public read, admin write
@@ -359,7 +365,7 @@ CREATE POLICY "Anyone can view inventory" ON inventory
 
 CREATE POLICY "Admins can manage inventory" ON inventory
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- PICKUP WINDOWS: Public read, admin write
@@ -368,90 +374,90 @@ CREATE POLICY "Anyone can view pickup windows" ON pickup_windows
 
 CREATE POLICY "Admins can manage pickup windows" ON pickup_windows
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- ORDERS: Users see own orders, admins see all
 CREATE POLICY "Users can view own orders" ON orders
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can create own orders" ON orders
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update own orders" ON orders
-  FOR UPDATE USING (auth.uid() = user_id);
+  FOR UPDATE USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Admins can view all orders" ON orders
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 CREATE POLICY "Admins can manage all orders" ON orders
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- ORDER ITEMS: Users see own, admins see all
 CREATE POLICY "Users can view own order items" ON order_items
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
+    EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = (select auth.uid()))
   );
 
 CREATE POLICY "Users can create own order items" ON order_items
   FOR INSERT WITH CHECK (
-    EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
+    EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = (select auth.uid()))
   );
 
 CREATE POLICY "Admins can view all order items" ON order_items
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- INQUIRIES: Users see own, admins see all
 CREATE POLICY "Users can view own inquiries" ON inquiries
-  FOR SELECT USING (auth.uid() = user_id);
+  FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can create own inquiries" ON inquiries
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+  FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update own inquiries" ON inquiries
-  FOR UPDATE USING (auth.uid() = user_id);
+  FOR UPDATE USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Admins can view all inquiries" ON inquiries
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 CREATE POLICY "Admins can manage all inquiries" ON inquiries
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- INQUIRY IMAGES: Users see own, admins see all
 CREATE POLICY "Users can view own inquiry images" ON inquiry_images
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM inquiries WHERE inquiries.id = inquiry_images.inquiry_id AND inquiries.user_id = auth.uid())
+    EXISTS (SELECT 1 FROM inquiries WHERE inquiries.id = inquiry_images.inquiry_id AND inquiries.user_id = (select auth.uid()))
   );
 
 CREATE POLICY "Users can create own inquiry images" ON inquiry_images
   FOR INSERT WITH CHECK (
-    EXISTS (SELECT 1 FROM inquiries WHERE inquiries.id = inquiry_images.inquiry_id AND inquiries.user_id = auth.uid())
+    EXISTS (SELECT 1 FROM inquiries WHERE inquiries.id = inquiry_images.inquiry_id AND inquiries.user_id = (select auth.uid()))
   );
 
 CREATE POLICY "Admins can view all inquiry images" ON inquiry_images
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- QUOTES: Users see quotes for own inquiries, admins see all
 CREATE POLICY "Users can view quotes for own inquiries" ON quotes
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM inquiries WHERE inquiries.id = quotes.inquiry_id AND inquiries.user_id = auth.uid())
+    EXISTS (SELECT 1 FROM inquiries WHERE inquiries.id = quotes.inquiry_id AND inquiries.user_id = (select auth.uid()))
   );
 
 CREATE POLICY "Admins can manage all quotes" ON quotes
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- SETTINGS: Public read, admin write
@@ -460,7 +466,7 @@ CREATE POLICY "Anyone can view settings" ON settings
 
 CREATE POLICY "Admins can manage settings" ON settings
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- WEEKLY MENU STORY: Public read, admin write
@@ -469,7 +475,7 @@ CREATE POLICY "Anyone can view weekly menu story" ON weekly_menu_story
 
 CREATE POLICY "Admins can manage weekly menu story" ON weekly_menu_story
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = TRUE)
+    EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = TRUE)
   );
 
 -- =====================================================
@@ -499,7 +505,7 @@ DECLARE
 BEGIN
   -- Check if ordering is globally enabled
   SELECT (value->>'enabled')::BOOLEAN INTO ordering_enabled
-  FROM settings WHERE key = 'ordering_enabled';
+  FROM public.settings WHERE key = 'ordering_enabled';
 
   IF NOT COALESCE(ordering_enabled, TRUE) THEN
     RETURN FALSE;
@@ -510,7 +516,8 @@ BEGIN
 
   RETURN NOW() < cutoff_time;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = '';
 
 -- Function to get available quantity for a menu item
 CREATE OR REPLACE FUNCTION get_available_quantity(p_menu_item_id UUID, p_pickup_date DATE)
@@ -520,7 +527,7 @@ DECLARE
   reserved INTEGER;
 BEGIN
   SELECT daily_cap, reserved_quantity INTO cap, reserved
-  FROM inventory
+  FROM public.inventory
   WHERE menu_item_id = p_menu_item_id AND pickup_date = p_pickup_date;
 
   IF cap IS NULL THEN
@@ -529,7 +536,8 @@ BEGIN
 
   RETURN GREATEST(0, cap - COALESCE(reserved, 0));
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = '';
 
 -- Function to reserve inventory (called when order is placed)
 CREATE OR REPLACE FUNCTION reserve_inventory(p_menu_item_id UUID, p_pickup_date DATE, p_quantity INTEGER)
@@ -537,26 +545,28 @@ RETURNS BOOLEAN AS $$
 DECLARE
   available INTEGER;
 BEGIN
-  available := get_available_quantity(p_menu_item_id, p_pickup_date);
+  available := public.get_available_quantity(p_menu_item_id, p_pickup_date);
 
   IF available < p_quantity THEN
     RETURN FALSE;
   END IF;
 
-  UPDATE inventory
+  UPDATE public.inventory
   SET reserved_quantity = reserved_quantity + p_quantity
   WHERE menu_item_id = p_menu_item_id AND pickup_date = p_pickup_date;
 
   RETURN TRUE;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = '';
 
 -- Function to release inventory (called when order is canceled)
 CREATE OR REPLACE FUNCTION release_inventory(p_menu_item_id UUID, p_pickup_date DATE, p_quantity INTEGER)
 RETURNS VOID AS $$
 BEGIN
-  UPDATE inventory
+  UPDATE public.inventory
   SET reserved_quantity = GREATEST(0, reserved_quantity - p_quantity)
   WHERE menu_item_id = p_menu_item_id AND pickup_date = p_pickup_date;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = '';

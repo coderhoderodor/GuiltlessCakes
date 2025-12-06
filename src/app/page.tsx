@@ -6,32 +6,32 @@ export default function HomePage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] pt-32 pb-40 lg:pt-40 lg:pb-48 overflow-hidden bg-pink-50">
+      <section className="relative min-h-[85vh] pt-32 pb-12 lg:pt-40 lg:pb-16 overflow-hidden bg-pink-50">
         {/* Animated Flowers - Grouped and Rotated */}
         <div className="absolute right-[5%] top-[5%] w-[500px] h-[400px]" style={{ transform: 'rotate(-20deg)' }}>
           <svg className="absolute right-[55%] top-[40%] w-96 h-96 z-20 animate-flowerBloom" style={{ animationDelay: '0.3s', transform: 'rotate(20deg)' }} viewBox="0 0 100 100">
-            <circle cx="50" cy="30" r="15" fill="#fda4b4" />
-            <circle cx="30" cy="50" r="15" fill="#fda4b4" />
-            <circle cx="70" cy="50" r="15" fill="#fda4b4" />
-            <circle cx="40" cy="70" r="15" fill="#fda4b4" />
-            <circle cx="60" cy="70" r="15" fill="#fda4b4" />
-            <circle cx="50" cy="50" r="12" fill="#e11d53" />
+            <circle cx="50" cy="30" r="15" fill="#EBB4B2" />
+            <circle cx="30" cy="50" r="15" fill="#EBB4B2" />
+            <circle cx="70" cy="50" r="15" fill="#EBB4B2" />
+            <circle cx="40" cy="70" r="15" fill="#EBB4B2" />
+            <circle cx="60" cy="70" r="15" fill="#EBB4B2" />
+            <circle cx="50" cy="50" r="12" fill="#D3F3FF" />
           </svg>
           <svg className="absolute right-[25%] top-[20%] w-80 h-80 animate-flowerBloom" style={{ animationDelay: '0.5s' }} viewBox="0 0 100 100">
-            <circle cx="50" cy="30" r="15" fill="#fecdd6" />
-            <circle cx="30" cy="50" r="15" fill="#fecdd6" />
-            <circle cx="70" cy="50" r="15" fill="#fecdd6" />
-            <circle cx="40" cy="70" r="15" fill="#fecdd6" />
-            <circle cx="60" cy="70" r="15" fill="#fecdd6" />
-            <circle cx="50" cy="50" r="12" fill="#f472b6" />
+            <circle cx="50" cy="30" r="15" fill="#FFE8E8" />
+            <circle cx="30" cy="50" r="15" fill="#FFE8E8" />
+            <circle cx="70" cy="50" r="15" fill="#FFE8E8" />
+            <circle cx="40" cy="70" r="15" fill="#FFE8E8" />
+            <circle cx="60" cy="70" r="15" fill="#FFE8E8" />
+            <circle cx="50" cy="50" r="12" fill="#EBB4B2" />
           </svg>
           <svg className="absolute right-[0%] top-[35%] w-48 h-48 animate-flowerBloom" style={{ animationDelay: '0.7s' }} viewBox="0 0 100 100">
-            <circle cx="50" cy="30" r="15" fill="#fbcfe8" />
-            <circle cx="30" cy="50" r="15" fill="#fbcfe8" />
-            <circle cx="70" cy="50" r="15" fill="#fbcfe8" />
-            <circle cx="40" cy="70" r="15" fill="#fbcfe8" />
-            <circle cx="60" cy="70" r="15" fill="#fbcfe8" />
-            <circle cx="50" cy="50" r="12" fill="#ec4899" />
+            <circle cx="50" cy="30" r="15" fill="#D3F3FF" />
+            <circle cx="30" cy="50" r="15" fill="#D3F3FF" />
+            <circle cx="70" cy="50" r="15" fill="#D3F3FF" />
+            <circle cx="40" cy="70" r="15" fill="#D3F3FF" />
+            <circle cx="60" cy="70" r="15" fill="#D3F3FF" />
+            <circle cx="50" cy="50" r="12" fill="#EBB4B2" />
           </svg>
         </div>
 
@@ -54,15 +54,15 @@ export default function HomePage() {
                 stunning custom celebration cakes for your special moments.
               </p>
 
-              <div className="flex flex-col gap-4 items-start animate-slideUp" style={{ animationDelay: '0.5s' }}>
-                <Link href="/menu">
-                  <Button className="shadow-pink-200/50 shadow-lg hover:shadow-pink-300/50 text-[11px] !px-8 !py-4 !rounded-full">
+              <div className="flex flex-col gap-4 w-64 animate-slideUp" style={{ animationDelay: '0.5s' }}>
+                <Link href="/menu" className="w-full">
+                  <Button className="w-full shadow-pink-200/50 shadow-lg hover:shadow-pink-300/50 text-[11px] !px-8 !py-4 !rounded-full">
                     View This Week&apos;s Menu
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
-                <Link href="/custom-cakes">
-                  <Button variant="outline" className="bg-white/50 backdrop-blur-sm border-pink-200 hover:bg-white text-[11px] !px-8 !py-4 !rounded-full">
+                <Link href="/custom-cakes" className="w-full">
+                  <Button variant="outline" className="w-full bg-white/50 backdrop-blur-sm border-pink-200 hover:bg-white text-[11px] !px-8 !py-4 !rounded-full">
                     Custom Cake Inquiry
                   </Button>
                 </Link>

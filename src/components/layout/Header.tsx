@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, ShoppingBag, User, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/contexts/CartContext';
@@ -17,38 +19,84 @@ export function Header() {
   const { toggleCart, itemCount } = useCart();
   const { language, setLanguage, t } = useLanguage();
   const { isAuthenticated, isAdmin, profile, signOut } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      setIsUserMenuOpen(false);
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
+  const handleSignOut = () => {
+    // Close menus immediately for responsive UX
+    setIsUserMenuOpen(false);
+    setIsMobileMenuOpen(false);
+
+    // Start sign out in background - don't wait
+    signOut().catch(console.error);
+
+    // Redirect immediately
+    router.push('/');
+    router.refresh();
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-100 animate-fadeIn">
+    <header className="sticky top-0 z-30 bg-[#EBB4B2] backdrop-blur-md border-b border-[#C9A09E] animate-fadeIn">
       <div className="container">
         <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <span className="text-xl lg:text-2xl font-bold text-pink-600">
-              Guiltless Cakes
-            </span>
+            <Image
+              src="/images/brand/logo-main.png"
+              alt="Guiltless Sweets"
+              width={180}
+              height={60}
+              className="w-auto"
+              style={{ height: '60px' }}
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-12">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-neutral-600 hover:text-pink-600 transition-colors font-medium text-[15px]"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center gap-4">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    'relative px-4 py-2 font-medium text-[15px] transition-all duration-300',
+                    isActive && 'font-semibold'
+                  )}
+                  style={{ color: '#FFFFFF' }}
+                >
+                  {/* Left tapered line */}
+                  <span
+                    className={cn(
+                      'absolute left-0 top-1/2 -translate-y-1/2 w-[1px] transition-all duration-300',
+                      isActive
+                        ? 'h-4 bg-gradient-to-b from-transparent via-white/50 to-transparent'
+                        : 'h-0 bg-transparent'
+                    )}
+                  />
+                  {/* Right tapered line */}
+                  <span
+                    className={cn(
+                      'absolute right-0 top-1/2 -translate-y-1/2 w-[1px] transition-all duration-300',
+                      isActive
+                        ? 'h-4 bg-gradient-to-b from-transparent via-white/50 to-transparent'
+                        : 'h-0 bg-transparent'
+                    )}
+                  />
+                  {/* Highlight glow */}
+                  <span
+                    className={cn(
+                      'absolute inset-0 rounded-lg transition-all duration-300',
+                      isActive
+                        ? 'bg-white/20 shadow-[0_1px_3px_rgba(0,0,0,0.08)]'
+                        : 'bg-transparent'
+                    )}
+                  />
+                  <span className="relative z-10">{link.label}</span>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right Side Actions */}
@@ -57,7 +105,7 @@ export function Header() {
             <div className="relative hidden sm:block">
               <button
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="flex items-center gap-1 px-2 py-1 text-sm text-neutral-600 hover:text-neutral-800 transition-colors"
+                className="flex items-center gap-1 px-2 py-1 text-sm text-white/80 hover:text-white transition-colors"
               >
                 {SUPPORTED_LANGUAGES.find((l) => l.code === language)?.flag}
                 <ChevronDown className="w-4 h-4" />
@@ -93,12 +141,12 @@ export function Header() {
             {/* Cart Button */}
             <button
               onClick={toggleCart}
-              className="relative p-2 text-neutral-600 hover:text-pink-600 transition-colors"
+              className="relative p-2 text-white/80 hover:text-white transition-colors"
               aria-label="Open cart"
             >
               <ShoppingBag className="w-6 h-6" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-pink-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                <span className="absolute -top-1 -right-1 bg-white text-[#EBB4B2] text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
                   {itemCount}
                 </span>
               )}
@@ -109,7 +157,7 @@ export function Header() {
               <div className="relative hidden lg:block">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 p-2 text-neutral-600 hover:text-pink-600 transition-colors"
+                  className="flex items-center gap-2 p-2 text-white/80 hover:text-white transition-colors"
                 >
                   <User className="w-6 h-6" />
                   <span className="text-sm font-medium">
@@ -163,7 +211,7 @@ export function Header() {
               </div>
             ) : (
               <Link href="/auth/login" className="hidden lg:block">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-white/60 text-white hover:bg-white/10 hover:border-white">
                   {t(translations.nav.signIn)}
                 </Button>
               </Link>
@@ -172,7 +220,7 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-neutral-600"
+              className="lg:hidden p-2 text-white/80 hover:text-white transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -188,16 +236,24 @@ export function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-neutral-100 py-6 animate-slideUp">
             <nav className="flex flex-col gap-2">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-4 py-4 text-neutral-600 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      'px-4 py-4 rounded-lg transition-all duration-300',
+                      isActive
+                        ? 'text-pink-600 bg-neutral-100/60 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
+                        : 'text-neutral-600 hover:text-pink-600 hover:bg-neutral-50'
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <hr className="my-4 border-neutral-100" />
               {isAuthenticated ? (
                 <>

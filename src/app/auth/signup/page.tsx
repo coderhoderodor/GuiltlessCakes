@@ -128,6 +128,7 @@ export default function SignupPage() {
                   placeholder="John"
                   value={formData.firstName}
                   onChange={handleChange}
+                  disabled={isLoading}
                   required
                 />
                 <Input
@@ -137,6 +138,7 @@ export default function SignupPage() {
                   placeholder="Doe"
                   value={formData.lastName}
                   onChange={handleChange}
+                  disabled={isLoading}
                   required
                 />
               </div>
@@ -148,6 +150,7 @@ export default function SignupPage() {
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={isLoading}
                 required
               />
 
@@ -158,6 +161,7 @@ export default function SignupPage() {
                 placeholder="(555) 123-4567"
                 value={formData.phone}
                 onChange={handleChange}
+                disabled={isLoading}
                 helperText="Optional - used for pickup coordination"
               />
 
@@ -168,6 +172,7 @@ export default function SignupPage() {
                 placeholder="At least 8 characters"
                 value={formData.password}
                 onChange={handleChange}
+                disabled={isLoading}
                 required
                 minLength={8}
               />
@@ -179,6 +184,7 @@ export default function SignupPage() {
                 placeholder="Re-enter your password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                disabled={isLoading}
                 required
               />
 

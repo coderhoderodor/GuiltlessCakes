@@ -1,33 +1,29 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Meow_Script, Josefin_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { PageTransition } from '@/components/layout/PageTransition';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const meowScript = Meow_Script({
+  variable: '--font-meow-script',
   subsets: ['latin'],
+  weight: '400',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const josefinSans = Josefin_Sans({
+  variable: '--font-josefin-sans',
   subsets: ['latin'],
-});
-
-import { Playfair_Display } from 'next/font/google';
-
-const playfair = Playfair_Display({
-  variable: '--font-playfair',
-  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Guiltless Cakes | Boutique Home Bakery in Northeast Philadelphia',
-    template: '%s | Guiltless Cakes',
+    default: 'Guiltless Sweets | Boutique Home Bakery in Northeast Philadelphia',
+    template: '%s | Guiltless Sweets',
   },
   description:
     'A boutique home bakery in Northeast Philadelphia specializing in cupcakes, slices, and custom celebration cakes. Order from our weekly rotating menu or inquire about custom cakes for your special events.',
@@ -41,19 +37,19 @@ export const metadata: Metadata = {
     'wedding cakes',
     'birthday cakes',
   ],
-  authors: [{ name: 'Guiltless Cakes' }],
+  authors: [{ name: 'Guiltless Sweets' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://guiltlesscakes.com',
-    siteName: 'Guiltless Cakes',
-    title: 'Guiltless Cakes | Boutique Home Bakery',
+    url: 'https://guiltlesssweets.com',
+    siteName: 'Guiltless Sweets',
+    title: 'Guiltless Sweets | Boutique Home Bakery',
     description:
       'A boutique home bakery in Northeast Philadelphia specializing in cupcakes, slices, and custom celebration cakes.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guiltless Cakes | Boutique Home Bakery',
+    title: 'Guiltless Sweets | Boutique Home Bakery',
     description:
       'A boutique home bakery in Northeast Philadelphia specializing in cupcakes, slices, and custom celebration cakes.',
   },
@@ -71,12 +67,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased min-h-screen flex flex-col`}
+        className={`${meowScript.variable} ${josefinSans.variable} antialiased min-h-screen flex flex-col`}
       >
         <Providers>
           <ErrorBoundary>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
             <CartDrawer />
           </ErrorBoundary>

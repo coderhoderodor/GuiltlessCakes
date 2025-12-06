@@ -155,19 +155,19 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
               </div>
 
               {/* Content */}
-              <div className="p-10">
+              <div className="p-6">
                 <h3
-                  className="font-semibold text-neutral-800 mb-6 cursor-pointer hover:text-pink-600 transition-colors text-[15px]"
+                  className="font-semibold text-neutral-800 mb-2 cursor-pointer hover:text-pink-600 transition-colors text-[14px]"
                   onClick={() => setSelectedItem(scheduleItem)}
                 >
                   {translation?.name}
                 </h3>
-                <p className="text-[13px] text-neutral-500 line-clamp-2 mb-10 leading-loose">
+                <p className="text-[12px] text-neutral-500 line-clamp-2 mb-4 leading-relaxed">
                   {translation?.description}
                 </p>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-pink-600 font-semibold text-lg">
+                  <span className="text-pink-600 font-semibold text-base">
                     {formatCurrency(item.base_price)}
                   </span>
 
@@ -177,7 +177,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
                     <Badge variant="danger">Sold Out</Badge>
                   ) : (
                     <Button
-                      size="sm"
+                      size="xs"
                       onClick={() => handleAddToCart(scheduleItem)}
                     >
                       Add to Cart
@@ -186,7 +186,7 @@ export function MenuGrid({ items, pickupDate, orderingClosed }: MenuGridProps) {
                 </div>
 
                 {!isSoldOut && available <= 5 && !orderingClosed && (
-                  <p className="text-xs text-orange-600 mt-6">
+                  <p className="text-xs text-orange-600 mt-2">
                     Only {available} left!
                   </p>
                 )}
