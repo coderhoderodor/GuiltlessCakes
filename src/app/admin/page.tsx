@@ -36,7 +36,7 @@ async function getDashboardData() {
     .from('orders')
     .select('total_amount')
     .eq('pickup_date', pickupDate)
-    .in('status', ['paid', 'prepping', 'ready', 'picked_up']);
+    .in('status', ['paid', 'prepping', 'ready', 'out_for_delivery', 'delivered']);
 
   const totalRevenue = weekRevenue?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
 

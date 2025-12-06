@@ -57,10 +57,10 @@ export default async function OrdersPage() {
   ]);
 
   const upcomingOrders = orders.filter(
-    (o) => o.status !== 'picked_up' && o.status !== 'canceled'
+    (o) => o.status !== 'delivered' && o.status !== 'canceled'
   );
   const pastOrders = orders.filter(
-    (o) => o.status === 'picked_up' || o.status === 'canceled'
+    (o) => o.status === 'delivered' || o.status === 'canceled'
   );
 
   return (

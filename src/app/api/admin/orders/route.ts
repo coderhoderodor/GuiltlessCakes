@@ -25,13 +25,13 @@ export async function GET(request: NextRequest) {
     if (date && status) {
       orders = await orderService.getOrdersByDateAndStatus(
         date,
-        status as 'paid' | 'prepping' | 'ready' | 'picked_up' | 'canceled'
+        status as 'paid' | 'prepping' | 'ready' | 'out_for_delivery' | 'delivered' | 'canceled'
       );
     } else if (date) {
       orders = await orderService.getOrdersByDate(date);
     } else if (status) {
       orders = await orderService.getOrdersByStatus(
-        status as 'paid' | 'prepping' | 'ready' | 'picked_up' | 'canceled'
+        status as 'paid' | 'prepping' | 'ready' | 'out_for_delivery' | 'delivered' | 'canceled'
       );
     } else {
       orders = await orderService.getAllOrders();

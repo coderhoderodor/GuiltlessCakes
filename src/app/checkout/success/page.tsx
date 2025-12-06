@@ -3,14 +3,21 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Check, Package, Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { Check, Truck, Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Button, Card, CardContent, LoadingScreen } from '@/components/ui';
 import { useCart } from '@/contexts/CartContext';
 
 interface OrderDetails {
   orderNumber: string;
-  pickupDate: string;
-  pickupWindow: string;
+  deliveryDate: string;
+  deliveryWindow: string;
+  deliveryAddress: {
+    line1: string;
+    line2?: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
   total: number;
   items: Array<{
     name: string;
@@ -62,6 +69,13 @@ export default function CheckoutSuccessPage() {
     return <LoadingScreen message="Confirming your order..." />;
   }
 
+  const formatAddress = (address: OrderDetails['deliveryAddress']) => {
+    const lines = [address.line1];
+    if (address.line2) lines.push(address.line2);
+    lines.push(`${address.city}, ${address.state} ${address.zip}`);
+    return lines;
+  };
+
   return (
     <div className="min-h-[60vh] py-12 px-4">
       <div className="container max-w-2xl mx-auto">
@@ -97,27 +111,26 @@ export default function CheckoutSuccessPage() {
                   <div className="flex items-start gap-3">
                     <Calendar className="w-5 h-5 text-pink-600 mt-0.5" />
                     <div>
-                      <p className="font-medium text-neutral-800">Pickup Date</p>
-                      <p className="text-neutral-600">{orderDetails.pickupDate}</p>
+                      <p className="font-medium text-neutral-800">Delivery Date</p>
+                      <p className="text-neutral-600">{orderDetails.deliveryDate}</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Package className="w-5 h-5 text-pink-600 mt-0.5" />
+                    <Truck className="w-5 h-5 text-pink-600 mt-0.5" />
                     <div>
-                      <p className="font-medium text-neutral-800">Pickup Window</p>
-                      <p className="text-neutral-600">{orderDetails.pickupWindow}</p>
+                      <p className="font-medium text-neutral-800">Delivery Window</p>
+                      <p className="text-neutral-600">{orderDetails.deliveryWindow}</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-pink-600 mt-0.5" />
                     <div>
-                      <p className="font-medium text-neutral-800">Location</p>
-                      <p className="text-neutral-600">Northeast Philadelphia, PA</p>
-                      <p className="text-sm text-neutral-500">
-                        Exact address in confirmation email
-                      </p>
+                      <p className="font-medium text-neutral-800">Delivery Address</p>
+                      {orderDetails.deliveryAddress && formatAddress(orderDetails.deliveryAddress).map((line, i) => (
+                        <p key={i} className="text-neutral-600">{line}</p>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -136,11 +149,11 @@ export default function CheckoutSuccessPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-pink-600" />
-                  Receive a reminder on Thursday
+                  Receive a reminder the day before delivery
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-pink-600" />
-                  Pick up your treats during your window
+                  We&apos;ll text you when we&apos;re on our way!
                 </li>
               </ul>
             </div>

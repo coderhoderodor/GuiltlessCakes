@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
-import { DEFAULT_SERVICE_FEE_RATE } from '@/lib/constants';
+import { DEFAULT_SERVICE_FEE_RATE, FREE_DELIVERY_MINIMUM, DELIVERY_FEE } from '@/lib/constants';
 import { rateLimit, createRateLimitKey, getClientIp, RATE_LIMITS } from '@/lib/rate-limit';
 import { env } from '@/lib/env';
+import { isZipInServiceArea } from '@/lib/delivery/service-area';
+
+interface DeliveryAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  zip: string;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,7 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { items, pickupDate, pickupWindowId } = body;
+    const { items, deliveryDate, deliveryWindowId, deliveryAddress } = body;
 
     if (!items || items.length === 0) {
       return NextResponse.json(
@@ -45,9 +54,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!pickupDate || !pickupWindowId) {
+    if (!deliveryDate || !deliveryWindowId) {
       return NextResponse.json(
-        { error: 'Pickup date and window required' },
+        { error: 'Delivery date and window required' },
+        { status: 400 }
+      );
+    }
+
+    if (!deliveryAddress || !deliveryAddress.line1 || !deliveryAddress.city || !deliveryAddress.zip) {
+      return NextResponse.json(
+        { error: 'Complete delivery address required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate ZIP code is in service area
+    if (!isZipInServiceArea(deliveryAddress.zip)) {
+      return NextResponse.json(
+        { error: 'Sorry, we do not deliver to this ZIP code. Please check our service area.' },
         { status: 400 }
       );
     }
@@ -112,6 +136,21 @@ export async function POST(request: NextRequest) {
       quantity: 1,
     });
 
+    // Calculate and add delivery fee if applicable
+    const deliveryFee = subtotal >= FREE_DELIVERY_MINIMUM ? 0 : DELIVERY_FEE;
+    if (deliveryFee > 0) {
+      lineItems.push({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Delivery Fee',
+          },
+          unit_amount: Math.round(deliveryFee * 100),
+        },
+        quantity: 1,
+      });
+    }
+
     // Get user profile for customer email
     const { data: profile } = await supabase
       .from('profiles')
@@ -127,8 +166,14 @@ export async function POST(request: NextRequest) {
       customer_email: user.email,
       metadata: {
         user_id: user.id,
-        pickup_date: pickupDate,
-        pickup_window: pickupWindowId,
+        delivery_date: deliveryDate,
+        delivery_window: deliveryWindowId,
+        delivery_address_line1: deliveryAddress.line1,
+        delivery_address_line2: deliveryAddress.line2 || '',
+        delivery_city: deliveryAddress.city,
+        delivery_state: deliveryAddress.state,
+        delivery_zip: deliveryAddress.zip,
+        delivery_fee: String(deliveryFee),
         items: JSON.stringify(items.map((item: { menuItemId: string; quantity: number }) => ({
           menu_item_id: item.menuItemId,
           quantity: item.quantity,

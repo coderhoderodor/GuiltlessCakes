@@ -4,18 +4,28 @@ export const SITE_NAME = 'Guiltless Sweets';
 export const SITE_DESCRIPTION = 'A boutique home bakery in Northeast Philadelphia specializing in cupcakes, slices, and custom celebration cakes.';
 
 // Business Configuration
-export const PICKUP_DAY = 5; // Friday (0 = Sunday, 5 = Friday)
 export const DEFAULT_SERVICE_FEE_RATE = 0.05; // 5%
 export const MAX_INQUIRY_IMAGES = 5;
 export const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
-// Pickup Windows
-export const PICKUP_WINDOWS = [
+// Delivery Configuration
+export const DELIVERY_DAYS = [5, 6] as const; // Friday and Saturday (0 = Sunday)
+export const DELIVERY_FEE = 8.00; // Fee for orders under $50
+export const FREE_DELIVERY_MINIMUM = 50.00; // Free delivery threshold
+export const DELIVERY_RADIUS_MILES = 20;
+export const DELIVERY_CENTER_ZIP = '19136'; // Northeast Philadelphia
+
+// Delivery Windows (same as previous pickup windows)
+export const DELIVERY_WINDOWS = [
   { label: '10:00 AM - 12:00 PM', start: '10:00', end: '12:00' },
   { label: '12:00 PM - 2:00 PM', start: '12:00', end: '14:00' },
   { label: '2:00 PM - 4:00 PM', start: '14:00', end: '16:00' },
   { label: '4:00 PM - 6:00 PM', start: '16:00', end: '18:00' },
 ];
+
+// Legacy aliases for backwards compatibility
+export const PICKUP_DAY = 5; // @deprecated Use DELIVERY_DAYS instead
+export const PICKUP_WINDOWS = DELIVERY_WINDOWS; // @deprecated Use DELIVERY_WINDOWS instead
 
 // Dietary Tags
 export const DIETARY_TAGS = [
@@ -64,8 +74,9 @@ export const TIER_OPTIONS = [1, 2, 3, 4] as const;
 export const ORDER_STATUSES = [
   { value: 'paid', label: 'Paid', color: 'bg-green-100 text-green-800' },
   { value: 'prepping', label: 'Prepping', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'ready', label: 'Ready for Pickup', color: 'bg-blue-100 text-blue-800' },
-  { value: 'picked_up', label: 'Picked Up', color: 'bg-gray-100 text-gray-800' },
+  { value: 'ready', label: 'Ready for Delivery', color: 'bg-blue-100 text-blue-800' },
+  { value: 'out_for_delivery', label: 'Out for Delivery', color: 'bg-purple-100 text-purple-800' },
+  { value: 'delivered', label: 'Delivered', color: 'bg-gray-100 text-gray-800' },
   { value: 'canceled', label: 'Canceled', color: 'bg-red-100 text-red-800' },
 ] as const;
 
@@ -76,7 +87,7 @@ export const INQUIRY_STATUSES = [
   { value: 'quoted', label: 'Quoted', color: 'bg-purple-100 text-purple-800' },
   { value: 'accepted', label: 'Accepted', color: 'bg-green-100 text-green-800' },
   { value: 'in_progress', label: 'In Progress', color: 'bg-orange-100 text-orange-800' },
-  { value: 'ready_for_pickup', label: 'Ready for Pickup', color: 'bg-teal-100 text-teal-800' },
+  { value: 'ready_for_delivery', label: 'Ready for Delivery', color: 'bg-teal-100 text-teal-800' },
   { value: 'completed', label: 'Completed', color: 'bg-gray-100 text-gray-800' },
   { value: 'rejected', label: 'Rejected', color: 'bg-red-100 text-red-800' },
   { value: 'closed', label: 'Closed', color: 'bg-gray-100 text-gray-800' },
@@ -128,7 +139,7 @@ export const NAV_LINKS = [
   { href: '/menu', label: 'Menu' },
   { href: '/custom-cakes', label: 'Custom Cakes' },
   { href: '/about', label: 'About' },
-  { href: '/pickup', label: 'Pickup Info' },
+  { href: '/delivery', label: 'Delivery Info' },
   { href: '/contact', label: 'Contact' },
 ] as const;
 

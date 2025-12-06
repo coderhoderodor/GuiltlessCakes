@@ -1,7 +1,8 @@
 'use client';
 
 import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import type { Cart, CartItem } from '@/types';
+import type { Cart, CartItem, DeliveryAddress } from '@/types';
+import { FREE_DELIVERY_MINIMUM, DELIVERY_FEE } from '@/lib/constants';
 
 interface CartState extends Cart {
   isOpen: boolean;
@@ -11,8 +12,9 @@ type CartAction =
   | { type: 'ADD_ITEM'; payload: CartItem }
   | { type: 'REMOVE_ITEM'; payload: string }
   | { type: 'UPDATE_QUANTITY'; payload: { menuItemId: string; quantity: number } }
-  | { type: 'SET_PICKUP_DATE'; payload: string }
-  | { type: 'SET_PICKUP_WINDOW'; payload: string }
+  | { type: 'SET_DELIVERY_DATE'; payload: string }
+  | { type: 'SET_DELIVERY_WINDOW'; payload: string }
+  | { type: 'SET_DELIVERY_ADDRESS'; payload: DeliveryAddress }
   | { type: 'CLEAR_CART' }
   | { type: 'TOGGLE_CART' }
   | { type: 'OPEN_CART' }
@@ -21,8 +23,9 @@ type CartAction =
 
 const initialState: CartState = {
   items: [],
-  pickupDate: null,
-  pickupWindowId: null,
+  deliveryDate: null,
+  deliveryWindowId: null,
+  deliveryAddress: null,
   isOpen: false,
 };
 
@@ -78,16 +81,22 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
     }
 
-    case 'SET_PICKUP_DATE':
+    case 'SET_DELIVERY_DATE':
       return {
         ...state,
-        pickupDate: action.payload,
+        deliveryDate: action.payload,
       };
 
-    case 'SET_PICKUP_WINDOW':
+    case 'SET_DELIVERY_WINDOW':
       return {
         ...state,
-        pickupWindowId: action.payload,
+        deliveryWindowId: action.payload,
+      };
+
+    case 'SET_DELIVERY_ADDRESS':
+      return {
+        ...state,
+        deliveryAddress: action.payload,
       };
 
     case 'CLEAR_CART':
@@ -126,14 +135,17 @@ interface CartContextType {
   addItem: (item: CartItem) => void;
   removeItem: (menuItemId: string) => void;
   updateQuantity: (menuItemId: string, quantity: number) => void;
-  setPickupDate: (date: string) => void;
-  setPickupWindow: (windowId: string) => void;
+  setDeliveryDate: (date: string) => void;
+  setDeliveryWindow: (windowId: string) => void;
+  setDeliveryAddress: (address: DeliveryAddress) => void;
   clearCart: () => void;
   toggleCart: () => void;
   openCart: () => void;
   closeCart: () => void;
   itemCount: number;
   subtotal: number;
+  deliveryFee: number;
+  total: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -173,12 +185,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'UPDATE_QUANTITY', payload: { menuItemId, quantity } });
   };
 
-  const setPickupDate = (date: string) => {
-    dispatch({ type: 'SET_PICKUP_DATE', payload: date });
+  const setDeliveryDate = (date: string) => {
+    dispatch({ type: 'SET_DELIVERY_DATE', payload: date });
   };
 
-  const setPickupWindow = (windowId: string) => {
-    dispatch({ type: 'SET_PICKUP_WINDOW', payload: windowId });
+  const setDeliveryWindow = (windowId: string) => {
+    dispatch({ type: 'SET_DELIVERY_WINDOW', payload: windowId });
+  };
+
+  const setDeliveryAddress = (address: DeliveryAddress) => {
+    dispatch({ type: 'SET_DELIVERY_ADDRESS', payload: address });
   };
 
   const clearCart = () => {
@@ -202,6 +218,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     (sum, item) => sum + item.unitPrice * item.quantity,
     0
   );
+  const deliveryFee = subtotal >= FREE_DELIVERY_MINIMUM ? 0 : DELIVERY_FEE;
+  const total = subtotal + deliveryFee;
 
   return (
     <CartContext.Provider
@@ -210,14 +228,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
         addItem,
         removeItem,
         updateQuantity,
-        setPickupDate,
-        setPickupWindow,
+        setDeliveryDate,
+        setDeliveryWindow,
+        setDeliveryAddress,
         clearCart,
         toggleCart,
         openCart,
         closeCart,
         itemCount,
         subtotal,
+        deliveryFee,
+        total,
       }}
     >
       {children}

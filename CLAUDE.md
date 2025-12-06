@@ -46,23 +46,69 @@ This is a **luxury bakery website** with a Shopify-store aesthetic:
 | Card padding | `p-10` to `p-16` |
 | Button text | `text-[10px]` to `text-[12px]` |
 
-## Git Commit Policy
+## Git & GitHub Best Practices
 
-**Commit regularly to preserve progress:**
+### Commit Policy
 
-1. **After major changes** - Commit immediately after completing a feature, fix, or significant refactor
-2. **Every 15-20 minutes** - During longer sessions, commit work-in-progress to avoid losing changes
-3. **Before risky operations** - Always commit before attempting experimental changes
+**When to commit:**
+1. After completing a feature, fix, or significant refactor
+2. Every 15-20 minutes during longer sessions (WIP commits)
+3. Before risky/experimental changes
+4. Before switching branches
 
 **Commit message format:**
-- Use conventional commits: `feat:`, `fix:`, `refactor:`, `style:`, `docs:`, `chore:`
-- Keep the first line under 72 characters
-- Add details in the body if needed
+- Use conventional commits: `feat:`, `fix:`, `refactor:`, `style:`, `docs:`, `chore:`, `test:`
+- First line: under 72 characters, imperative mood ("Add feature" not "Added feature")
+- Body: explain WHY, not just WHAT (if needed)
+- Footer: reference issues with `Closes #123` or `Fixes #123`
 
-**Never commit:**
+**Example:**
+```
+feat: Add user authentication flow
+
+Implement login/signup with Supabase Auth including:
+- Email/password authentication
+- Password reset functionality
+- Session persistence
+
+Closes #42
+```
+
+### Branch Strategy
+
+- **main/master**: Production-ready code only
+- **feature branches**: `feat/description` or `feature/description`
+- **bugfix branches**: `fix/description` or `bugfix/description`
+- **naming**: Use lowercase, hyphens, descriptive names (e.g., `feat/add-checkout-flow`)
+
+### Pull Requests
+
+**Before creating a PR:**
+1. Ensure all commits are pushed: `git status`
+2. Rebase on latest main if needed: `git pull --rebase origin main`
+3. Run tests/build to verify: `npm run build`
+
+**PR best practices:**
+- Use descriptive titles with conventional commit prefix
+- Include summary of changes in description
+- Reference related issues
+- Add screenshots for UI changes
+- Request reviews from relevant team members
+
+### Never Commit
+
 - `.env.local` or files containing secrets
 - `node_modules/`
+- `.next/` build artifacts
 - Large binary files (use Git LFS if needed)
+- Console.log debugging statements
+- Commented-out code blocks
+
+### Push Policy
+
+- Push to remote regularly (at least end of each session)
+- Always push before ending work to preserve progress
+- Use `git push -u origin branch-name` for new branches
 
 ## Common Issues
 

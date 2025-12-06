@@ -60,7 +60,7 @@ export interface OrderStatistics {
   totalRevenue: number;
 }
 
-const COMPLETED_STATUSES: OrderStatus[] = ['picked_up', 'canceled'];
+const COMPLETED_STATUSES: OrderStatus[] = ['delivered', 'canceled'];
 
 export class OrderService implements IOrderService {
   constructor(private readonly orderRepository: IOrderRepository) {}
@@ -172,7 +172,8 @@ export class OrderService implements IOrderService {
       paid: 0,
       prepping: 0,
       ready: 0,
-      picked_up: 0,
+      out_for_delivery: 0,
+      delivered: 0,
       canceled: 0,
     };
 
@@ -194,15 +195,16 @@ export class OrderService implements IOrderService {
 
   /**
    * Validate order status transitions
-   * Follows a logical workflow: paid -> prepping -> ready -> picked_up
+   * Follows a logical workflow: paid -> prepping -> ready -> out_for_delivery -> delivered
    * Can cancel from any non-final state
    */
   private isValidStatusTransition(from: OrderStatus, to: OrderStatus): boolean {
     const validTransitions: Record<OrderStatus, OrderStatus[]> = {
       paid: ['prepping', 'canceled'],
       prepping: ['ready', 'canceled'],
-      ready: ['picked_up', 'canceled'],
-      picked_up: [], // Final state
+      ready: ['out_for_delivery', 'canceled'],
+      out_for_delivery: ['delivered', 'canceled'],
+      delivered: [], // Final state
       canceled: [], // Final state
     };
 

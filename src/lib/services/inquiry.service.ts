@@ -40,7 +40,7 @@ export interface InquiryStatistics {
   pendingReviewCount: number;
 }
 
-const ACTIVE_STATUSES: InquiryStatus[] = ['new', 'in_review', 'quoted', 'accepted', 'in_progress', 'ready_for_pickup'];
+const ACTIVE_STATUSES: InquiryStatus[] = ['new', 'in_review', 'quoted', 'accepted', 'in_progress', 'ready_for_delivery'];
 const CLOSED_STATUSES: InquiryStatus[] = ['completed', 'rejected', 'closed'];
 
 export class InquiryService implements IInquiryService {
@@ -188,8 +188,8 @@ export class InquiryService implements IInquiryService {
       in_review: ['quoted', 'rejected', 'closed'],
       quoted: ['accepted', 'rejected', 'closed'],
       accepted: ['in_progress', 'rejected', 'closed'],
-      in_progress: ['ready_for_pickup', 'closed'],
-      ready_for_pickup: ['completed', 'closed'],
+      in_progress: ['ready_for_delivery', 'closed'],
+      ready_for_delivery: ['completed', 'closed'],
       completed: [], // Final state
       rejected: [], // Final state
       closed: [], // Final state

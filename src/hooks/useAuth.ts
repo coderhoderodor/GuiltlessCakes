@@ -18,21 +18,20 @@ export function useAuth() {
 
     // Helper to fetch profile with timeout
     const fetchProfileWithTimeout = async (userId: string, timeoutMs = 5000) => {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
       try {
-        const { data } = await supabase
+        const timeoutPromise = new Promise<null>((resolve) => {
+          setTimeout(() => resolve(null), timeoutMs);
+        });
+
+        const fetchPromise = supabase
           .from('profiles')
           .select('*')
           .eq('id', userId)
           .single()
-          .abortSignal(controller.signal);
+          .then(({ data }) => data);
 
-        clearTimeout(timeoutId);
-        return data;
+        return await Promise.race([fetchPromise, timeoutPromise]);
       } catch (err) {
-        clearTimeout(timeoutId);
         console.warn('[useAuth] Profile fetch failed or timed out:', err);
         return null;
       }
