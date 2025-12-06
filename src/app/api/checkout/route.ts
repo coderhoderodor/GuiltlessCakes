@@ -54,14 +54,19 @@ export async function POST(request: NextRequest) {
 
     // Get menu items from database to verify prices
     const menuItemIds = items.map((item: { menuItemId: string }) => item.menuItemId);
+    console.log('[Checkout] Verifying menu items:', menuItemIds);
+
     const { data: menuItems, error: menuError } = await supabase
       .from('menu_items')
       .select('id, base_price, translations:menu_item_translations(name, language)')
       .in('id', menuItemIds);
 
-    if (menuError || !menuItems) {
+    console.log('[Checkout] Menu items result:', { menuItems, menuError: menuError?.message });
+
+    if (menuError || !menuItems || menuItems.length === 0) {
+      console.error('[Checkout] Failed to verify menu items:', menuError?.message || 'No items found');
       return NextResponse.json(
-        { error: 'Failed to verify menu items' },
+        { error: 'Failed to verify menu items. Please refresh and try again.' },
         { status: 500 }
       );
     }
@@ -131,9 +136,9 @@ export async function POST(request: NextRequest) {
       },
       success_url: `${env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${env.NEXT_PUBLIC_APP_URL}/checkout`,
-      automatic_tax: {
-        enabled: true,
-      },
+      // automatic_tax: {
+      //   enabled: true,
+      // },
     });
 
     return NextResponse.json({ url: session.url });
